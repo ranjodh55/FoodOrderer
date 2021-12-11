@@ -1,0 +1,109 @@
+package the.mrsmile.foodorderer.activities;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+import java.util.ArrayList;
+import java.util.List;
+import the.mrsmile.foodorderer.R;
+import the.mrsmile.foodorderer.adapters.ViewPagerAdapter;
+import the.mrsmile.foodorderer.databinding.ActivityMainBinding;
+import the.mrsmile.foodorderer.models.CategoryItems;
+
+public class MainActivity extends AppCompatActivity implements ViewPagerAdapter.OnClickInterface {
+
+    private ViewPager2 viewPager;
+    private final List<Integer> list = new ArrayList<>();
+    private ActivityMainBinding binding;
+    Toolbar toolbar;
+    private ViewPagerAdapter adapter;
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        binding.ivFastDelivery.setClipToOutline(true);
+        viewPager = binding.viewPager;
+        adapter = new ViewPagerAdapter(list, this);
+        toolbar = binding.toolBar;
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+
+
+
+        ImageView profile = binding.ivProfile;
+        profile.setOnClickListener(view -> Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show());
+
+        TextView address = binding.tvAddress;
+        address.setOnClickListener(view -> onAddressClick());
+
+        ImageView addressArrow = binding.ivAddressArrow;
+        addressArrow.setOnClickListener(view -> onAddressClick());
+
+
+        list.add(R.drawable.burger);
+        list.add(R.drawable.momos2);
+        list.add(R.drawable.paneertikka2);
+        list.add(R.drawable.pizza);
+        list.add(R.drawable.chaampp);
+
+
+        viewPager.setAdapter(adapter);
+
+        TabLayout tabLayout = binding.tabLayout;
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> {
+                    if (position == 0) {
+                        tab.setText("Burger ");
+                    } else if (position == 1) {
+                        tab.setText("Momos ");
+                    } else if (position == 2) {
+                        tab.setText("Paneer Tikka ");
+                    } else if (position == 3) {
+                        tab.setText("Pizza ");
+                    } else if (position == 4) {
+                        tab.setText("Chaamp ");
+                    } else {
+                        tab.setText("Position" + position);
+                    }
+                }).attach();
+
+        RecyclerView recyclerView = binding.recyclerRecommended;
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    public void onClick(int position) {
+        Toast.makeText(this, "clicked " + position, Toast.LENGTH_SHORT).show();
+    }
+
+    public void onAddressClick() {
+
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(R.layout.bottom_sheet_layout);
+
+        CardView currentLocation = bottomSheetDialog.findViewById(R.id.cardView_bottomSheet);
+
+        if (currentLocation != null) {
+            currentLocation.setOnClickListener(view -> Toast.makeText(binding.getRoot().getContext(), "Clicked", Toast.LENGTH_SHORT).show());
+        }
+        bottomSheetDialog.show();
+
+    }
+
+}
