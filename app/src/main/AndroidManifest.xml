@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodOrderer">
         <activity
+            android:name=".activities.OrderActivity"
+            android:launchMode="singleTop"
+            android:exported="false" />
+        <activity
             android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>

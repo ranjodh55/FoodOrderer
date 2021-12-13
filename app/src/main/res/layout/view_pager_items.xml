@@ -6,13 +6,13 @@
     android:layout_height="match_parent">
 
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivViewPager"
         android:layout_width="0dp"
         android:layout_height="210dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/roundedImageView"
         android:layout_marginTop="8dp"
-        android:background="@drawable/background"
         android:src="@drawable/fastdelivery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

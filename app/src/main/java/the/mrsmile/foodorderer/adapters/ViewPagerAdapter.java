@@ -46,7 +46,7 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.View
             super(itemView);
             image = itemView.findViewById(R.id.ivViewPager);
 
-            image.setClipToOutline(true);
+//            image.setClipToOutline(true);
         }
 
         //init block
@@ -58,13 +58,13 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.View
         //implemented method of View.OnClickListener interface
         @Override
         public void onClick(View view) {
-            listener.onClick(getAdapterPosition());
+            listener.onCategoriesClick(getAdapterPosition());
         }
     }
 
     //created a new interface to control on Click events from main activity
     public interface OnClickInterface {
-        void onClick(int position);
+        void onCategoriesClick(int position);
     }
 }
 

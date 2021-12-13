@@ -18,7 +18,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
     List<CategoryItems> list;
     onClick listener;
-    public RecyclerAdapter(List<CategoryItems> list,onClick listener) {
+
+    public RecyclerAdapter(List<CategoryItems> list, onClick listener) {
         this.list = list;
         this.listener = listener;
 
@@ -64,12 +65,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
         @Override
         public void onClick(View view) {
-            listener.onItemClick(getAdapterPosition());
+            listener.onRecommendedItemClick(getAdapterPosition());
         }
     }
 
     public interface onClick {
-        void onItemClick(int position);
+        void onRecommendedItemClick(int position);
     }
 }
 
