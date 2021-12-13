@@ -17,14 +17,16 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 import java.util.List;
 import the.mrsmile.foodorderer.R;
+import the.mrsmile.foodorderer.adapters.RecyclerAdapter;
 import the.mrsmile.foodorderer.adapters.ViewPagerAdapter;
 import the.mrsmile.foodorderer.databinding.ActivityMainBinding;
 import the.mrsmile.foodorderer.models.CategoryItems;
 
-public class MainActivity extends AppCompatActivity implements ViewPagerAdapter.OnClickInterface {
+public class MainActivity extends AppCompatActivity implements ViewPagerAdapter.OnClickInterface, RecyclerAdapter.onClick {
 
     private ViewPager2 viewPager;
     private final List<Integer> list = new ArrayList<>();
+    private final List<CategoryItems> listRecycler = new ArrayList<>();
     private ActivityMainBinding binding;
     Toolbar toolbar;
     private ViewPagerAdapter adapter;
@@ -62,6 +64,12 @@ public class MainActivity extends AppCompatActivity implements ViewPagerAdapter.
         list.add(R.drawable.chaampp);
 
 
+        listRecycler.add(new CategoryItems("Cheesy Pizza","Italian","Rs.150 for one",R.drawable.pizza_));
+        listRecycler.add(new CategoryItems("Delicious Ice Cream","Dessert","Rs.80 for one",R.drawable.icecream_));
+        listRecycler.add(new CategoryItems("Creamy Burger","Street Food","Rs.70 for one",R.drawable.burger_));
+        listRecycler.add(new CategoryItems("Masala Dosa","South Indian","Rs.100 for one",R.drawable.dosa_));
+        listRecycler.add(new CategoryItems("Crunchy Samosa","North Indian","Rs.70 for one",R.drawable.samosa_));
+
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = binding.tabLayout;
@@ -83,7 +91,9 @@ public class MainActivity extends AppCompatActivity implements ViewPagerAdapter.
                 }).attach();
 
         RecyclerView recyclerView = binding.recyclerRecommended;
-        recyclerView.setAdapter(adapter);
+
+        RecyclerAdapter adapter1 = new RecyclerAdapter(listRecycler,this);
+        recyclerView.setAdapter(adapter1);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -106,4 +116,8 @@ public class MainActivity extends AppCompatActivity implements ViewPagerAdapter.
 
     }
 
+    @Override
+    public void onItemClick(int position) {
+        Toast.makeText(this, "clicked "+position, Toast.LENGTH_SHORT).show();
+    }
 }
