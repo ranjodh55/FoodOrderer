@@ -3,6 +3,7 @@ package the.mrsmile.foodorderer.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,9 +18,10 @@ import the.mrsmile.foodorderer.models.OrderItems;
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder> {
 
     List<OrderItems> list;
-
-    public OrdersAdapter(List<OrderItems> list) {
+    onOrderClick listener;
+    public OrdersAdapter(List<OrderItems> list,onOrderClick listener) {
         this.list = list;
+        this.listener = listener;
     }
 
     @NonNull
@@ -44,9 +46,10 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
         return list.size();
     }
 
-    static class OrdersViewHolder extends RecyclerView.ViewHolder {
+    class OrdersViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title, desc, price;
         ImageView image;
+        Button btn;
 
         public OrdersViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -54,6 +57,18 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
             desc = itemView.findViewById(R.id.tvDescOrders);
             price = itemView.findViewById(R.id.tvPriceOrders);
             image = itemView.findViewById(R.id.ivRecyclerOrders);
+            btn = itemView.findViewById(R.id.btnAddToCart);
+
+            btn.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            listener.onOrderClickk(getAdapterPosition());
+        }
+    }
+
+    public interface onOrderClick{
+        void onOrderClickk(int position);
     }
 }

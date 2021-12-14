@@ -12,6 +12,7 @@
         <activity
             android:name=".activities.OrderActivity"
             android:launchMode="singleTop"
+            android:theme="@style/Theme.FoodOrderer"
             android:exported="false" />
         <activity
             android:name=".activities.MainActivity"

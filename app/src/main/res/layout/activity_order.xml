@@ -11,34 +11,34 @@
         android:id="@+id/appBarLayoutrders"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/primaryColor"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
-        android:background="@color/primaryColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolBarOrders"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tvTest"
-            android:layout_width="350dp"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBarOrders"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Placeholder"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:padding="8dp"
-            android:background="@drawable/rounded_bg_with_main_bg_color"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvTest"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_bg_with_main_bg_color"
+                android:padding="8dp"
+                android:text="Placeholder"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-    </androidx.appcompat.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView

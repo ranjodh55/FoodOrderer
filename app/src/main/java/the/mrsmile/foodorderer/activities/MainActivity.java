@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements ViewPagerAdapter.
     public void onAddressClick() {
 
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(R.layout.bottom_sheet_layout);
+        bottomSheetDialog.setContentView(R.layout.address_bottom_sheet_layout);
 
         CardView currentLocation = bottomSheetDialog.findViewById(R.id.cardView_bottomSheet);
 
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements ViewPagerAdapter.
 
     @Override
     public void onRecommendedItemClick(int position) {
-        openOrderActivity(RECOMMENDED);
+
     }
 
     private void openOrderActivity(String type) {
