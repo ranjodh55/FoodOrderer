@@ -4,4 +4,9 @@
     <string name="select_delivery_location">Select Delivery Location</string>
     <string name="home">Home</string>
     <string name="profile">Profile</string>
+    <string name="title">Title</string>
+    <string name="desc">Desc</string>
+    <string name="price">Price</string>
+    <string name="the_fastest_in_delivery_food_order_now">The fastest in Delivery Food.Order Now!</string>
+    <string name="placeholder">Placeholder</string>
 </resources>

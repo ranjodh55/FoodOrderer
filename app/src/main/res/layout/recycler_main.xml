@@ -19,12 +19,12 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/image"
+                android:id="@+id/iv_home_ad"
                 android:layout_width="0dp"
                 android:layout_height="182dp"
-                android:background="@drawable/background"
                 android:scaleType="centerCrop"
                 android:src="@drawable/fastdelivery"
+                android:contentDescription="@string/the_fastest_in_delivery_food_order_now"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -34,19 +34,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="Title"
+                android:text="@string/title"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/image" />
+                app:layout_constraintTop_toBottomOf="@id/iv_home_ad" />
 
             <TextView
                 android:id="@+id/tvDescRecyclerMain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="Desc"
+                android:text="@string/desc"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="Price"
+                android:text="@string/price"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/tvTitleRecyclerMain"

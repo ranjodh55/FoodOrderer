@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1009895782721",
+    "project_id": "food-orderer-3c103",
+    "storage_bucket": "food-orderer-3c103.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009895782721:android:4a815a47cc5feb2eca49c0",
+        "android_client_info": {
+          "package_name": "the.mrsmile.foodorderer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1009895782721-sndg8mkic9i9998b048oaanf5jct0t29.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6fuDS_ZvCkuvB9Px2IuYwVETm6UinECM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1009895782721-sndg8mkic9i9998b048oaanf5jct0t29.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

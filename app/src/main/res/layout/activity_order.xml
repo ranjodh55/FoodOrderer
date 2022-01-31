@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_bg_with_main_bg_color"
                 android:padding="8dp"
-                android:text="Placeholder"
+                android:text="@string/placeholder"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
