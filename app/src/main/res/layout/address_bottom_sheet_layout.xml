@@ -66,11 +66,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvSavedAddresses"
         android:layout_marginTop="16dp"
         android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/recyclerSavedAddresses" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

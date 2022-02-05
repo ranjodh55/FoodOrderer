@@ -27,7 +27,6 @@ class OrdersAdapter(var list: List<RecommendedItems>, var listener: OnOrderClick
         holder.title.text = currentItem.title
         holder.desc.text = currentItem.desc
         holder.price.text = currentItem.price
-        Picasso.get().load(currentItem.image).into(holder.image)
     }
 
     override fun getItemCount(): Int {

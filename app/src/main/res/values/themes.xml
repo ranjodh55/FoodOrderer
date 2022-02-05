@@ -18,16 +18,40 @@
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
-        <item name="android:theme">@style/roundedImageView</item>
     </style>
 
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet_bg</item>
     </style>
 
-    <style name="roundedImageView">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">16dp</item>
-        <item name="color">@color/white</item>
+    <style name="RoundedSquareImageView">
+        <item name="cornerSize">10%</item>
     </style>
+
+    <style name="OrdersBottomSheetImageView">
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeTopRight">16dp</item>
+
+    </style>
+
+    <style name="RoundeddButton">
+        <item name="android:backgroundTint">@color/primaryColor</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="cornerRadius">50dp</item>
+    </style>
+
+    // Set the splash screen
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/primaryColor</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher</item>
+        <item name="windowSplashScreenAnimationDuration">200</item>
+        <item name="postSplashScreenTheme">@style/Theme.FoodOrderer</item>
+    </style>
+
+<!--    <style name="Theme.App.Starting" parent="Theme.MaterialComponents.Light.NoActionBar">-->
+<!--        <item name="android:windowBackground">@drawable/splash_image</item>-->
+<!--        <item name="android:statusBarColor">@color/white</item>-->
+<!--    </style>-->
+
 </resources>

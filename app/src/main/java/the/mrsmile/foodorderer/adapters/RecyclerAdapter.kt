@@ -1,5 +1,6 @@
 package the.mrsmile.foodorderer.adapters
 
+import android.graphics.Bitmap
 import the.mrsmile.foodorderer.models.RecommendedItems
 import androidx.recyclerview.widget.RecyclerView
 import the.mrsmile.foodorderer.adapters.RecyclerAdapter.RecyclerViewHolder
@@ -7,11 +8,14 @@ import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import the.mrsmile.foodorderer.R
 import android.widget.TextView
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import java.lang.Exception
 
-class RecyclerAdapter(var list: List<RecommendedItems>, var listener: onClick) :
+class RecyclerAdapter(private var list: List<RecommendedItems>, var listener: OnRecommendedClick) :
     RecyclerView.Adapter<RecyclerViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
         val view =
@@ -25,7 +29,17 @@ class RecyclerAdapter(var list: List<RecommendedItems>, var listener: onClick) :
         holder.title.text = currentItem.title
         holder.desc.text = currentItem.desc
         holder.price.text = currentItem.price
-        Picasso.get().load(currentItem.image).into(holder.image)
+        holder.image.scaleType = ImageView.ScaleType.CENTER_CROP
+        holder.picasso.load(currentItem.image).into(holder.image , object : Callback{
+            override fun onSuccess() {
+                holder.progressBar.visibility = View.GONE
+            }
+
+            override fun onError(e: Exception?) {
+
+            }
+
+        })
     }
 
     override fun getItemCount(): Int {
@@ -34,25 +48,25 @@ class RecyclerAdapter(var list: List<RecommendedItems>, var listener: onClick) :
 
     inner class RecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        var image: ImageView
-        var title: TextView
-        var desc: TextView
-        var price: TextView
+        val image: ImageView = itemView.findViewById(R.id.iv_home_ad)
+        val title: TextView = itemView.findViewById(R.id.tvTitleRecyclerMain)
+        val desc: TextView = itemView.findViewById(R.id.tvDescRecyclerMain)
+        val price: TextView = itemView.findViewById(R.id.tvPriceRecyclerMain)
+        val picasso : Picasso
+        val progressBar = itemView.findViewById<ProgressBar>(R.id.progressBar_recyclerMain)
+
         override fun onClick(view: View) {
-            listener.onRecommendedItemClick(adapterPosition)
+            listener.onRecommendedItemClick(absoluteAdapterPosition)
         }
 
         init {
-            image = itemView.findViewById(R.id.iv_home_ad)
-            title = itemView.findViewById(R.id.tvTitleRecyclerMain)
-            desc = itemView.findViewById(R.id.tvDescRecyclerMain)
-            price = itemView.findViewById(R.id.tvPriceRecyclerMain)
+            picasso = Picasso.get()
             itemView.setOnClickListener(this)
 
         }
     }
 
-    interface onClick {
+    interface OnRecommendedClick {
         fun onRecommendedItemClick(position: Int)
     }
 }
