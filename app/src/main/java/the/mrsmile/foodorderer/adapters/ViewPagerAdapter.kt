@@ -16,6 +16,9 @@ import java.lang.Exception
 
 class ViewPagerAdapter(private var list: List<CategoryItems>, var listener: OnClickInterface,val context: Context) :
     RecyclerView.Adapter<ViewPagerAdapter.ViewHolder>() {
+
+        public var flag = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.view_pager_items, parent, false)
@@ -27,6 +30,7 @@ class ViewPagerAdapter(private var list: List<CategoryItems>, var listener: OnCl
         holder.picasso.load(currentItem.image).into(holder.image,object : Callback{
             override fun onSuccess() {
                 holder.progressBar.visibility = View.GONE
+                flag=true
             }
 
             override fun onError(e: Exception?) {

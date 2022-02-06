@@ -11,10 +11,17 @@
     <string name="placeholder">test</string>
     <string name="recommended">Recommended</string>
     <string name="categories">Categories</string>
-    <string name="address">Address |</string>
+    <string name="address">Address</string>
     <string name="order_details">Order Details</string>
     <string name="buy">Buy</string>
     <string name="plus">+</string>
     <string name="one">1</string>
     <string name="minus">-</string>
+    <string name="saved_addresses">Saved Addresses</string>
+    <string name="hi">Hi ,</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="already_a_customer">Already a customer</string>
+    <string name="made_with">Made with</string>
 </resources>

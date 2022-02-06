@@ -13,5 +13,6 @@
     <color name="secondaryTextColor">#000000</color>
     <color name="main_bg">#fcebeb</color>
     <color name="light_main">#fcebeb</color>
+    <color name="shimmer_bg">#dddddd</color>
 
 </resources>

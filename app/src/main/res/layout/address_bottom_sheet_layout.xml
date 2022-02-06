@@ -11,54 +11,18 @@
         app:layout_constraintTop_toTopOf="parent"
         android:text="@string/select_delivery_location"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
         android:textColor="@color/black"
         android:id="@+id/tvSelectLocation"
         android:layout_margin="8dp" />
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:elevation="8dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/main_bg"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSelectLocation"
-        android:id="@+id/cardView_bottomSheet">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ivGps"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_margin="8dp"
-                android:src="@drawable/ic_gps" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Use Current Location"
-                android:layout_margin="8dp"
-                android:textColor="@color/black"
-                app:layout_constraintStart_toEndOf="@id/ivGps"
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/tvChooseCurrentLocation" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvSavedAddresses"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardView_bottomSheet"
-        android:text="Saved Addresses"
+        android:text="@string/saved_addresses"
+        app:layout_constraintTop_toBottomOf="@id/tvSelectLocation"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:textColor="@color/black"
@@ -71,6 +35,8 @@
         app:layout_constraintTop_toBottomOf="@id/tvSavedAddresses"
         android:layout_marginTop="16dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/recyclerSavedAddresses" />
 

@@ -12,6 +12,7 @@
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_launcher.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_launcher_dark.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_loading.xml" value="0.212" />
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_love.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_menu.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_profile.xml" value="0.2671875" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/profile_bg.xml" value="0.2671875" />
@@ -22,7 +23,8 @@
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/splash_image.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/tv_bg.xml" value="0.2671875" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout-v31/view_pager_items.xml" value="0.2942708333333333" />
-        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/activity_main.xml" value="0.25104166666666666" />
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/activity_login.xml" value="0.2942708333333333" />
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/activity_main.xml" value="0.2942708333333333" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/activity_order.xml" value="0.25104166666666666" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/activity_splash_acivity.xml" value="0.2942708333333333" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/address_bottom_sheet_layout.xml" value="0.2942708333333333" />
@@ -36,6 +38,7 @@
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/recommended_recyler_items.xml" value="0.25104166666666666" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/recycler_main.xml" value="0.25104166666666666" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/recycler_orders_items.xml" value="0.25104166666666666" />
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/shimmer_layout.xml" value="0.2942708333333333" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/view_pager_items.xml" value="0.25104166666666666" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/menu/toolbar_items.xml" value="0.25104166666666666" />
       </map>

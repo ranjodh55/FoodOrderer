@@ -1,6 +1,5 @@
 package the.mrsmile.foodorderer.activities
 
-import android.Manifest
 import androidx.appcompat.app.AppCompatActivity
 import the.mrsmile.foodorderer.adapters.ViewPagerAdapter.OnClickInterface
 import the.mrsmile.foodorderer.adapters.RecyclerAdapter.OnRecommendedClick
@@ -15,20 +14,15 @@ import com.google.android.material.tabs.TabLayoutMediator
 import the.mrsmile.foodorderer.adapters.RecyclerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import androidx.cardview.widget.CardView
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
@@ -45,8 +39,8 @@ import java.util.ArrayList
 
 class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
     private var viewPager: ViewPager2? = null
-    private var listRecommendedGlobal: MutableList<RecommendedItems> = ArrayList()
-    private var listCategoryGlobal: MutableList<CategoryItems> = ArrayList()
+    private var listRecommendedGlobal: ArrayList<RecommendedItems> = ArrayList()
+    private var listCategoryGlobal: ArrayList<CategoryItems> = ArrayList()
     private lateinit var binding: ActivityMainBinding
     private var toolbar: Toolbar? = null
     private var viewPagerAdapter: ViewPagerAdapter? = null
@@ -54,23 +48,33 @@ class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
     private lateinit var daoCategory: Dao
     private val log = "MainActivity"
     private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
+    var flag1 = false
+    var flag2 = false
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        installSplashScreen()
+//        val splashScreen= installSplashScreen()
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-
-        setupLocationPermissionStuff()
-
+//        binding.root.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener{
+//            override fun onPreDraw(): Boolean {
+//                return if(flag1 && flag2){
+//                    binding.root.viewTreeObserver.removeOnPreDrawListener(this)
+//                    true
+//                } else{
+//                    false
+//                }
+//            }
+//
+//        })
         setContentView(binding.root)
         hideStuff()
 
-        viewPager = binding.viewPager
+//        setupLocationPermissionStuff()
 
-        val profile = binding.ivProfile
+
+        val profile = binding.ivmenu
         val address = binding.clAddressMainActivity
 
         toolbar = binding.toolBar
@@ -89,43 +93,41 @@ class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
             onAddressClick()
         }
 
-//        addressArrow.setOnClickListener {
-//            onAddressClick()
-//        }
 
         getRecommendedItemsData()
         getCategoryItemData()
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun setupLocationPermissionStuff() {
-        locationPermissionRequest = registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ) { permissions ->
-            when {
-                permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                    Toast.makeText(
-                        binding.root.context, "Granted precise ", Toast.LENGTH_SHORT
-                    ).show()
-                }
-                permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                    Toast.makeText(
-                        binding.root.context, "Granted approx ", Toast.LENGTH_SHORT
-                    ).show()
-
-                }
-                else -> {
-                    Toast.makeText(
-                        binding.root.context, "denied ", Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        }
-    }
+//    @RequiresApi(Build.VERSION_CODES.N)
+//    private fun setupLocationPermissionStuff() {
+//        locationPermissionRequest = registerForActivityResult(
+//            ActivityResultContracts.RequestMultiplePermissions()
+//        ) { permissions ->
+//            when {
+//                permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+//                    Toast.makeText(
+//                        binding.root.context, "Granted precise ", Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//                permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+//                    Toast.makeText(
+//                        binding.root.context, "Granted approx ", Toast.LENGTH_SHORT
+//                    ).show()
+//
+//                }
+//                else -> {
+//                    Toast.makeText(
+//                        binding.root.context, "denied ", Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//        }
+//    }
 
     private fun setViewPager(list: ArrayList<CategoryItems>) {
 
+        viewPager = binding.viewPager
         viewPagerAdapter = ViewPagerAdapter(list, this, this)
         Log.e(log, listCategoryGlobal.toString())
         viewPager!!.adapter = viewPagerAdapter
@@ -154,7 +156,9 @@ class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
                 }
             }
         }.attach()
+        flag1 = true
         listCategoryGlobal = list
+        showStuff()
     }
 
     private fun getCategoryItemData() {
@@ -171,7 +175,6 @@ class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
                         }
                     }
                 setViewPager(list)
-                showStuff()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -183,7 +186,7 @@ class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
 
     private fun getRecommendedItemsData() {
 
-        val listRecycler = ArrayList<RecommendedItems>()
+        val list = ArrayList<RecommendedItems>()
         daoRecommended =
             Dao(Firebase.database.getReference(RecommendedItems::class.java.simpleName))
         daoRecommended.get().addValueEventListener(object : ValueEventListener {
@@ -192,17 +195,12 @@ class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
                 for (dataSnapshot in snapshot.children) {
                     val item = dataSnapshot.getValue(RecommendedItems::class.java)
 
-                    if (item != null && !listRecycler.contains(item)) {
-                        listRecycler.add(item)
+                    if (item != null && !list.contains(item)) {
+                        list.add(item)
                     }
                 }
-
-                val recyclerView = binding.recyclerRecommended
-                val recyclerAdapter = RecyclerAdapter(listRecycler, this@MainActivity)
-                recyclerView.adapter = recyclerAdapter
-                recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
-
-                listRecommendedGlobal = listRecycler
+                setRecyclerRecommended(list)
+                listRecommendedGlobal = list
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -210,6 +208,14 @@ class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
             }
 
         })
+    }
+
+    private fun setRecyclerRecommended(list: ArrayList<RecommendedItems>) {
+        val recyclerView = binding.recyclerRecommended
+        val recyclerAdapter = RecyclerAdapter(list, this@MainActivity)
+        flag2 = true
+        recyclerView.adapter = recyclerAdapter
+        recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
     }
 
     override fun onCategoriesClick(position: Int) {
@@ -235,40 +241,37 @@ class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
     private fun onAddressClick() {
         val bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(R.layout.address_bottom_sheet_layout)
-        val currentLocation = bottomSheetDialog.findViewById<CardView>(R.id.cardView_bottomSheet)
-        currentLocation?.setOnClickListener {
-
-            when {
-                ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                ) == PackageManager.PERMISSION_GRANTED -> {
-                    // You can use the API that requires the permission.
-                    Toast.makeText(
-                        binding.root.context, "Granted precise ", Toast.LENGTH_SHORT
-                    ).show()
-                }
-                else -> {
-                    // You can directly ask for the permission.
-                    // The registered ActivityResultCallback gets the result of this request.
-                    requestPermission()
-                }
-            }
-
-
-        }
+//        val currentLocation = bottomSheetDialog.findViewById<CardView>(R.id.cardView_bottomSheet)
+//        currentLocation?.setOnClickListener {
+//
+//            when {
+//                ContextCompat.checkSelfPermission(
+//                    this,
+//                    Manifest.permission.ACCESS_FINE_LOCATION,
+//                ) == PackageManager.PERMISSION_GRANTED -> {
+//                    Toast.makeText(
+//                        binding.root.context, "Granted precise ", Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//                else -> {
+//                    requestPermission()
+//                }
+//            }
+//
+//
+//        }
         bottomSheetDialog.show()
     }
 
-    private fun requestPermission(){
-
-        locationPermissionRequest.launch(
-            arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            )
-        )
-    }
+//    private fun requestPermission() {
+//
+//        locationPermissionRequest.launch(
+//            arrayOf(
+//                Manifest.permission.ACCESS_FINE_LOCATION,
+//                Manifest.permission.ACCESS_COARSE_LOCATION
+//            )
+//        )
+//    }
 
     override fun onRecommendedItemClick(position: Int) {
 
@@ -327,15 +330,13 @@ class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
     }
 
     private fun hideStuff() {
-        binding.appBarLayout.visibility = View.GONE
         binding.svMainActivity.visibility = View.GONE
 
     }
 
     private fun showStuff() {
-        binding.appBarLayout.visibility = View.VISIBLE
         binding.svMainActivity.visibility = View.VISIBLE
-        binding.progressBarMainActivity.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
     }
 
 }

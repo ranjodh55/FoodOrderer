@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.FoodOrderer" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primaryDarkColor</item>
+        <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryVariant">@color/primaryColor</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -37,7 +37,14 @@
     <style name="RoundeddButton">
         <item name="android:backgroundTint">@color/primaryColor</item>
         <item name="android:textColor">@color/white</item>
-        <item name="cornerRadius">50dp</item>
+        <item name="cornerRadius">20dp</item>
+    </style>
+
+    <style name="OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@color/primaryColor</item>
+        <item name="strokeColor">@color/primaryColor</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="cornerRadius">20dp</item>
     </style>
 
     // Set the splash screen
