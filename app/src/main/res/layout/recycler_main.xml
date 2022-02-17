@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="4dp"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="16dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,22 +19,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ProgressBar
-                android:id="@+id/progressBar_recyclerMain"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminateDrawable="@drawable/loading_animation"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <ImageView
                 android:id="@+id/iv_home_ad"
                 android:layout_width="0dp"
                 android:layout_height="182dp"
                 android:contentDescription="@string/the_fastest_in_delivery_food_order_now"
                 android:src="@drawable/fastdelivery"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -80,6 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_rupee"
+                android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="@id/tvPriceRecyclerMain"
                 app:layout_constraintEnd_toStartOf="@id/tvPriceRecyclerMain"
                 app:layout_constraintTop_toTopOf="@id/tvPriceRecyclerMain" />

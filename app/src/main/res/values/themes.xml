@@ -14,6 +14,10 @@
         <!-- Customize your theme here. -->
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
 
+        <item name="circularProgressIndicatorStyle">@style/Widget.App.CircularProgressIndicator
+        </item>
+        <item name="materialDividerStyle">@style/Widget.App.MaterialDivider</item>
+
     </style>
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
@@ -25,13 +29,11 @@
     </style>
 
     <style name="RoundedSquareImageView">
-        <item name="cornerSize">10%</item>
+        <item name="cornerSize">16dp</item>
     </style>
 
     <style name="OrdersBottomSheetImageView">
-        <item name="cornerSizeTopLeft">16dp</item>
-        <item name="cornerSizeTopRight">16dp</item>
-
+        <item name="cornerSize">16dp</item>
     </style>
 
     <style name="RoundeddButton">
@@ -56,9 +58,21 @@
         <item name="postSplashScreenTheme">@style/Theme.FoodOrderer</item>
     </style>
 
-<!--    <style name="Theme.App.Starting" parent="Theme.MaterialComponents.Light.NoActionBar">-->
-<!--        <item name="android:windowBackground">@drawable/splash_image</item>-->
-<!--        <item name="android:statusBarColor">@color/white</item>-->
-<!--    </style>-->
+    <style name="Widget.App.CircularProgressIndicator" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.CircularProgressIndicator</item>
+        <item name="trackThickness">20dp</item>
+    </style>
+
+    <style name="ThemeOverlay.App.CircularProgressIndicator" parent="">
+        <item name="colorPrimary">@color/primaryLightColor</item>
+    </style>
+
+    <style name="Widget.App.MaterialDivider" parent="Widget.MaterialComponents.MaterialDivider">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.MaterialDivider</item>
+    </style>
+
+    <style name="ThemeOverlay.App.MaterialDivider" parent="">
+        <item name="colorOnSurface">@color/primaryDarkColor</item>
+    </style>
 
 </resources>

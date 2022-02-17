@@ -16,16 +16,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import android.content.Intent
 import android.util.Log
-import android.view.View
-import android.view.ViewTreeObserver
+import android.view.*
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.widget.Toolbar
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -47,32 +48,15 @@ class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
     private lateinit var daoRecommended: Dao
     private lateinit var daoCategory: Dao
     private val log = "MainActivity"
-    private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
-    var flag1 = false
-    var flag2 = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-//        val splashScreen= installSplashScreen()
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-//        binding.root.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener{
-//            override fun onPreDraw(): Boolean {
-//                return if(flag1 && flag2){
-//                    binding.root.viewTreeObserver.removeOnPreDrawListener(this)
-//                    true
-//                } else{
-//                    false
-//                }
-//            }
-//
-//        })
+
         setContentView(binding.root)
         hideStuff()
-
-//        setupLocationPermissionStuff()
-
 
         val profile = binding.ivmenu
         val address = binding.clAddressMainActivity
@@ -98,32 +82,6 @@ class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
         getCategoryItemData()
 
     }
-
-//    @RequiresApi(Build.VERSION_CODES.N)
-//    private fun setupLocationPermissionStuff() {
-//        locationPermissionRequest = registerForActivityResult(
-//            ActivityResultContracts.RequestMultiplePermissions()
-//        ) { permissions ->
-//            when {
-//                permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-//                    Toast.makeText(
-//                        binding.root.context, "Granted precise ", Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//                permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-//                    Toast.makeText(
-//                        binding.root.context, "Granted approx ", Toast.LENGTH_SHORT
-//                    ).show()
-//
-//                }
-//                else -> {
-//                    Toast.makeText(
-//                        binding.root.context, "denied ", Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//            }
-//        }
-//    }
 
     private fun setViewPager(list: ArrayList<CategoryItems>) {
 
@@ -156,7 +114,6 @@ class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
                 }
             }
         }.attach()
-        flag1 = true
         listCategoryGlobal = list
         showStuff()
     }
@@ -212,8 +169,7 @@ class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
 
     private fun setRecyclerRecommended(list: ArrayList<RecommendedItems>) {
         val recyclerView = binding.recyclerRecommended
-        val recyclerAdapter = RecyclerAdapter(list, this@MainActivity)
-        flag2 = true
+        val recyclerAdapter = RecyclerAdapter(list, this@MainActivity, this)
         recyclerView.adapter = recyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
     }
@@ -241,37 +197,8 @@ class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
     private fun onAddressClick() {
         val bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(R.layout.address_bottom_sheet_layout)
-//        val currentLocation = bottomSheetDialog.findViewById<CardView>(R.id.cardView_bottomSheet)
-//        currentLocation?.setOnClickListener {
-//
-//            when {
-//                ContextCompat.checkSelfPermission(
-//                    this,
-//                    Manifest.permission.ACCESS_FINE_LOCATION,
-//                ) == PackageManager.PERMISSION_GRANTED -> {
-//                    Toast.makeText(
-//                        binding.root.context, "Granted precise ", Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//                else -> {
-//                    requestPermission()
-//                }
-//            }
-//
-//
-//        }
         bottomSheetDialog.show()
     }
-
-//    private fun requestPermission() {
-//
-//        locationPermissionRequest.launch(
-//            arrayOf(
-//                Manifest.permission.ACCESS_FINE_LOCATION,
-//                Manifest.permission.ACCESS_COARSE_LOCATION
-//            )
-//        )
-//    }
 
     override fun onRecommendedItemClick(position: Int) {
 
@@ -316,8 +243,10 @@ class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
             count++
             counterText?.text = count.toString()
         }
-        Picasso.get().load(listRecommendedGlobal[position].image).into(image)
 
+
+        Glide.with(this).load(listRecommendedGlobal[position].image)
+            .placeholder(R.drawable.placeholder2).into(image!!)
 
         bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
         bottomSheetDialog.show()
@@ -330,13 +259,35 @@ class MainActivity : AppCompatActivity(), OnClickInterface, OnRecommendedClick {
     }
 
     private fun hideStuff() {
-        binding.svMainActivity.visibility = View.GONE
-
+        binding.svMainActivity.visibility = View.INVISIBLE
     }
 
-    private fun showStuff() {
+    fun showStuff() {
         binding.svMainActivity.visibility = View.VISIBLE
-        binding.progressBar.visibility = View.GONE
+        binding.progressBar.hide()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        MenuInflater(this).inflate(R.menu.main_menu_items, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        val auth = Firebase.auth
+        when (item.itemId) {
+            R.id.signOut -> {
+                auth.signOut()
+                if (auth.currentUser == null) {
+                    Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show()
+                    Intent(this, LoginActivity::class.java).apply {
+                        startActivity(this)
+                        finish()
+                    }
+                }
+            }
+        }
+
+        return true
+    }
 }

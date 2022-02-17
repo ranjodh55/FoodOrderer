@@ -1,5 +1,6 @@
 package the.mrsmile.foodorderer.adapters
 
+import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import the.mrsmile.foodorderer.adapters.OrdersAdapter.OrdersViewHolder
 import android.view.ViewGroup
@@ -9,10 +10,12 @@ import android.widget.Button
 import android.widget.ImageView
 import the.mrsmile.foodorderer.R
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
+import the.mrsmile.foodorderer.models.OrderActivityItems
 import the.mrsmile.foodorderer.models.RecommendedItems
 
-class OrdersAdapter(var list: List<RecommendedItems>, var listener: OnOrderClick) :
+class OrdersAdapter(var list: List<OrderActivityItems>, var listener: OnOrderClick, var context: Context) :
     RecyclerView.Adapter<OrdersViewHolder>() {
 
 
@@ -27,6 +30,8 @@ class OrdersAdapter(var list: List<RecommendedItems>, var listener: OnOrderClick
         holder.title.text = currentItem.title
         holder.desc.text = currentItem.desc
         holder.price.text = currentItem.price
+        if (!list[position].image.isNullOrEmpty())
+        Glide.with(context).load(list[position].image).placeholder(R.drawable.placeholder2).dontAnimate().centerCrop().into(holder.image)
     }
 
     override fun getItemCount(): Int {
@@ -40,8 +45,10 @@ class OrdersAdapter(var list: List<RecommendedItems>, var listener: OnOrderClick
         var price: TextView = itemView.findViewById(R.id.tvPriceOrders)
         var image: ImageView = itemView.findViewById(R.id.ivRecyclerOrders)
         var btn: Button = itemView.findViewById(R.id.btnAddToCart)
+
+
         override fun onClick(view: View) {
-            listener.onOrderClickk(adapterPosition)
+            listener.onOrderClickk(absoluteAdapterPosition)
         }
 
         init {

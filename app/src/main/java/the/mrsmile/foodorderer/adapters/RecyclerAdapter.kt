@@ -1,21 +1,21 @@
 package the.mrsmile.foodorderer.adapters
 
-import android.graphics.Bitmap
+import android.content.Context
 import the.mrsmile.foodorderer.models.RecommendedItems
 import androidx.recyclerview.widget.RecyclerView
 import the.mrsmile.foodorderer.adapters.RecyclerAdapter.RecyclerViewHolder
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
-import android.widget.ProgressBar
-import the.mrsmile.foodorderer.R
+import android.widget.ImageView import the.mrsmile.foodorderer.R
 import android.widget.TextView
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
-import java.lang.Exception
+import com.bumptech.glide.Glide
 
-class RecyclerAdapter(private var list: List<RecommendedItems>, var listener: OnRecommendedClick) :
+class RecyclerAdapter(
+    private var list: List<RecommendedItems>,
+    var listener: OnRecommendedClick,
+    val context: Context
+) :
     RecyclerView.Adapter<RecyclerViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
         val view =
@@ -29,17 +29,9 @@ class RecyclerAdapter(private var list: List<RecommendedItems>, var listener: On
         holder.title.text = currentItem.title
         holder.desc.text = currentItem.desc
         holder.price.text = currentItem.price
-        holder.image.scaleType = ImageView.ScaleType.CENTER_CROP
-        holder.picasso.load(currentItem.image).into(holder.image , object : Callback{
-            override fun onSuccess() {
-                holder.progressBar.visibility = View.GONE
-            }
+        if (!list[position].image.isNullOrEmpty())
+        Glide.with(context).load(currentItem.image).placeholder(R.drawable.placeholder2).dontAnimate().centerCrop().into(holder.image)
 
-            override fun onError(e: Exception?) {
-
-            }
-
-        })
     }
 
     override fun getItemCount(): Int {
@@ -52,17 +44,13 @@ class RecyclerAdapter(private var list: List<RecommendedItems>, var listener: On
         val title: TextView = itemView.findViewById(R.id.tvTitleRecyclerMain)
         val desc: TextView = itemView.findViewById(R.id.tvDescRecyclerMain)
         val price: TextView = itemView.findViewById(R.id.tvPriceRecyclerMain)
-        val picasso : Picasso
-        val progressBar = itemView.findViewById<ProgressBar>(R.id.progressBar_recyclerMain)
 
         override fun onClick(view: View) {
             listener.onRecommendedItemClick(absoluteAdapterPosition)
         }
 
         init {
-            picasso = Picasso.get()
             itemView.setOnClickListener(this)
-
         }
     }
 

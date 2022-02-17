@@ -14,7 +14,9 @@
         <!-- Customize your theme here. -->
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
-
+        <item name="circularProgressIndicatorStyle">@style/Widget.App.CircularProgressIndicator
+    </item>
+        <item name="materialDividerStyle">@style/Widget.App.MaterialDivider</item>
     </style>
 
 </resources>

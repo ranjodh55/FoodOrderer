@@ -12,14 +12,17 @@
         <activity
             android:name=".activities.MainActivity"
             android:theme="@style/Theme.FoodOrderer"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".activities.OrderActivity"
             android:exported="false"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.FoodOrderer" />
         <activity
             android:name=".activities.LoginActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

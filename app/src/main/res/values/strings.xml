@@ -21,7 +21,8 @@
     <string name="hi">Hi ,</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="sign_up">Sign Up</string>
+    <string name="continue_">Continue</string>
     <string name="already_a_customer">Already a customer</string>
     <string name="made_with">Made with</string>
+    <string name="logout">Logout</string>
 </resources>
