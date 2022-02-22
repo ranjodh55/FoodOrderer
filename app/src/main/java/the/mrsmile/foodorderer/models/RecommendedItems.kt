@@ -6,7 +6,7 @@ import com.google.firebase.database.IgnoreExtraProperties
 data class RecommendedItems(
     val title: String? = null,
     val desc: String? = null,
-    val price: String? = null,
+    val price: Int? = null,
     val image: String? = null,
     val rating: String? = null,
     val calories: String? = null,

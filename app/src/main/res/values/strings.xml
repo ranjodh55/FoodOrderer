@@ -13,7 +13,7 @@
     <string name="categories">Categories</string>
     <string name="address">Address</string>
     <string name="order_details">Order Details</string>
-    <string name="buy">Buy</string>
+    <string name="add_to_bag">Add to Bag</string>
     <string name="plus">+</string>
     <string name="one">1</string>
     <string name="minus">-</string>
@@ -25,4 +25,16 @@
     <string name="already_a_customer">Already a customer</string>
     <string name="made_with">Made with</string>
     <string name="logout">Logout</string>
+    <string name="change">Change</string>
+    <string name="account">Account</string>
+    <string name="bag">Bag</string>
+    <string name="place_order_and_pay">Place order and pay</string>
+    <string name="pay_now">Pay Now</string>
+    <string name="delivery_in">Delivery in</string>
+    <string name="button_for_decreasing_quantity">Button for decreasing quantity</string>
+    <string name="button_for_increasing_quantity">Button for increasing quantity</string>
+    <string name="cooking_some_delicious_food">Cooking some delicious food.</string>
+    <string name="don_t_let_us_eat_all_alone">Don\'t let us eat all alone.</string>
+    <string name="explore">Explore</string>
+    <string name="cartoon_cooking_food">Cartoon cooking food.</string>
 </resources>

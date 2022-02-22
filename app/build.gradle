@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.razorpay:checkout:1.6.12'
     def activity_version = "1.4.0"
 
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -54,7 +55,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
     implementation 'androidx.core:core-splashscreen:1.0.0-alpha01'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0-alpha01'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0-alpha02'
     implementation "androidx.activity:activity-ktx:$activity_version"
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
     implementation 'com.google.firebase:firebase-auth-ktx'
@@ -62,5 +63,4 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.13.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
-
 }

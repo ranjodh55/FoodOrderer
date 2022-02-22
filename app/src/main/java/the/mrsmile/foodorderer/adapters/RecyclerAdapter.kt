@@ -1,6 +1,7 @@
 package the.mrsmile.foodorderer.adapters
 
 import android.content.Context
+import android.util.Log
 import the.mrsmile.foodorderer.models.RecommendedItems
 import androidx.recyclerview.widget.RecyclerView
 import the.mrsmile.foodorderer.adapters.RecyclerAdapter.RecyclerViewHolder
@@ -28,7 +29,7 @@ class RecyclerAdapter(
         val currentItem = list[position]
         holder.title.text = currentItem.title
         holder.desc.text = currentItem.desc
-        holder.price.text = currentItem.price
+        holder.price.text = currentItem.price.toString()
         if (!list[position].image.isNullOrEmpty())
         Glide.with(context).load(currentItem.image).placeholder(R.drawable.placeholder2).dontAnimate().centerCrop().into(holder.image)
 

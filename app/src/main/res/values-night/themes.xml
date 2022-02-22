@@ -17,6 +17,9 @@
         <item name="circularProgressIndicatorStyle">@style/Widget.App.CircularProgressIndicator
     </item>
         <item name="materialDividerStyle">@style/Widget.App.MaterialDivider</item>
+<!--        <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>-->
+<!--        <item name="snackbarStyle">@style/Widget.App.Snackbar</item>-->
+<!--        <item name="snackbarButtonStyle">@style/Widget.App.SnackbarButton</item>-->
     </style>
 
 </resources>

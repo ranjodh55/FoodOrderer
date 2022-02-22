@@ -200,7 +200,7 @@
         android:layout_width="300dp"
         android:layout_height="65dp"
         android:layout_margin="16dp"
-        android:text="@string/buy"
+        android:text="@string/add_to_bag"
         android:textAllCaps="false"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -3,17 +3,14 @@ package the.mrsmile.foodorderer.activities
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.android.material.progressindicator.LinearProgressIndicator
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -57,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
     private fun signUp(email: String, pass: String) {
 
         progressBar.show()
-        auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
+        auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener { it ->
             if (it.isSuccessful) {
                 Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show()
                 progressBar.hide()
@@ -94,9 +91,9 @@ class LoginActivity : AppCompatActivity() {
         var view = activity.currentFocus
         //If no view currently has focus, create a new one, just so we can grab a window token from it
         if (view == null) {
-            view = View(activity);
+            view = View(activity)
         }
-        imm.hideSoftInputFromWindow(view.windowToken, 0);
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
 
     }
 

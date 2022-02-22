@@ -14,5 +14,6 @@
     <color name="main_bg">#fcebeb</color>
     <color name="light_main">#fcebeb</color>
     <color name="shimmer_bg">#dddddd</color>
+    <color name="green">#60b246</color>
 
 </resources>

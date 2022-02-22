@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivRecyclerBag"
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        android:layout_margin="8dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/placeholder2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/RoundedSquareImageView" />
+
+    <TextView
+        android:id="@+id/tvPriceBag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/placeholder"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/tvQuantityBag"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvQuantityBag" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/dividerBag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivRecyclerBag" />
+
+    <ImageView
+        android:id="@+id/ivRupeeBag"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:importantForAccessibility="no"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_rupee"
+        app:layout_constraintBottom_toBottomOf="@id/tvPriceBag"
+        app:layout_constraintEnd_toStartOf="@id/tvPriceBag"
+        app:layout_constraintTop_toTopOf="@id/tvPriceBag" />
+
+    <TextView
+        android:id="@+id/tvTitleBag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/placeholder"
+        app:layout_constraintBottom_toBottomOf="@id/ivRupeeBag"
+        app:layout_constraintStart_toEndOf="@id/ivRecyclerBag"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageButton
+        android:id="@+id/btnCounterMinusBag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:src="@drawable/ic_arrow_dec"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/button_for_decreasing_quantity"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/ivRecyclerBag"
+        app:layout_constraintStart_toEndOf="@id/ivRecyclerBag"
+        app:layout_constraintTop_toTopOf="@id/ivRecyclerBag" />
+
+    <TextView
+        android:id="@+id/tvQuantityBag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/one"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@id/btnCounterMinusBag"
+        app:layout_constraintStart_toEndOf="@id/btnCounterMinusBag"
+        app:layout_constraintTop_toTopOf="@id/btnCounterMinusBag" />
+
+    <ImageButton
+        android:id="@+id/btnCounterPlusBag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_arrow_inc"
+        android:contentDescription="@string/button_for_increasing_quantity"
+        app:layout_constraintStart_toEndOf="@id/tvQuantityBag"
+        app:layout_constraintBottom_toBottomOf="@id/tvQuantityBag"
+        app:layout_constraintTop_toTopOf="@id/tvQuantityBag" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
