@@ -1,22 +1,18 @@
 package the.mrsmile.foodorderer.activities
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.razorpay.PaymentResultListener
 import the.mrsmile.foodorderer.fragments.BagFragment
 import the.mrsmile.foodorderer.fragments.HomeFragment
 import the.mrsmile.foodorderer.R
 import the.mrsmile.foodorderer.databinding.ActivityMainBinding
-import java.lang.reflect.Field
 
 
-class MainActivity : AppCompatActivity() , PaymentResultListener{
+class MainActivity : AppCompatActivity(), PaymentResultListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var bottomAppBar: BottomNavigationView
@@ -36,12 +32,17 @@ class MainActivity : AppCompatActivity() , PaymentResultListener{
         bottomAppBar.setOnItemSelectedListener {
 
             when (it.itemId) {
-                R.id.homeNavBar -> supportFragmentManager.beginTransaction().replace(
-                    R.id.flMainACtivity,
-                    HomeFragment(), "Home"
-                ).commit()
-                R.id.bagNavBar -> supportFragmentManager.beginTransaction()
-                    .replace(R.id.flMainACtivity, BagFragment()).addToBackStack("Home").commit()
+                R.id.homeNavBar -> supportFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.flMainACtivity,
+                        HomeFragment(), "Home"
+                    ).commit()
+
+                R.id.bagNavBar -> supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.flMainACtivity, BagFragment())
+                    .addToBackStack("Home")
+                    .commit()
 
 //                R.id.AccountNavBar-> {
 //                    val auth = Firebase.auth
@@ -73,6 +74,7 @@ class MainActivity : AppCompatActivity() , PaymentResultListener{
         super.onBackPressed()
         bottomAppBar.selectedItemId = R.id.homeNavBar
     }
+
     override fun onPaymentSuccess(p0: String?) {
         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
     }

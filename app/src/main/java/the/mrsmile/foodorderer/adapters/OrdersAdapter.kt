@@ -29,7 +29,7 @@ class OrdersAdapter(var list: List<OrderActivityItems>, var listener: OnOrderCli
         val currentItem = list[position]
         holder.title.text = currentItem.title
         holder.desc.text = currentItem.desc
-        holder.price.text = currentItem.price
+        holder.price.text = currentItem.price.toString()
         if (!list[position].image.isNullOrEmpty())
         Glide.with(context).load(list[position].image).placeholder(R.drawable.placeholder2).dontAnimate().centerCrop().into(holder.image)
     }

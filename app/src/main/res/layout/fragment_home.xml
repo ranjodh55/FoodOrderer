@@ -2,9 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/flHomeFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/flHomeFragment"
     tools:context=".fragments.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,12 +38,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+<!--                <ImageView-->
+<!--                    android:id="@+id/ivMenu"-->
+<!--                    android:layout_width="40dp"-->
+<!--                    android:layout_height="30dp"-->
+<!--                    android:layout_gravity="start|center_vertical"-->
+<!--                    android:contentDescription="@string/profile"-->
+<!--                    android:src="@drawable/ic_food"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_address_mainActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="8dp"
+                    android:layout_gravity="start"
                     android:padding="4dp">
 
                     <TextView
@@ -70,17 +79,6 @@
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <ImageView
-                    android:id="@+id/ivmenu"
-                    android:layout_width="40dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="start"
-                    android:layout_marginEnd="8dp"
-                    android:contentDescription="@string/profile"
-                    android:src="@drawable/ic_menu"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -181,4 +179,35 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:background="@color/green"
+        android:id="@+id/rlGoToBag"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="start|center_vertical"
+            android:text="@string/items_in_bag"
+            android:textColor="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGoToBag"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="@string/go_to_bag"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
 </FrameLayout>

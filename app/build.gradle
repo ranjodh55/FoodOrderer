@@ -60,6 +60,7 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation "androidx.drawerlayout:drawerlayout:1.1.1"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.4.3-native-mt'
 
     implementation 'com.github.bumptech.glide:glide:4.13.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'

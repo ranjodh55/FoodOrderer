@@ -16,6 +16,7 @@ import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -33,6 +34,7 @@ import the.mrsmile.foodorderer.models.BagItems
 
 class BagFragment : Fragment(), BagRecyclerAdapter.Click {
 
+    private lateinit var progressBar: CircularProgressIndicator
     private lateinit var binding: FragmentBagBinding
     private lateinit var dao: Dao
     private lateinit var listGlobal: ArrayList<BagItems>
@@ -41,9 +43,9 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
     private lateinit var payNow: MaterialButton
     private var totalPrice = 0
     private lateinit var contextt: Context
-    private lateinit var clMain : ConstraintLayout
-    private lateinit var clForEmptyBag : ConstraintLayout
-    private lateinit var btnExplore : MaterialButton
+    private lateinit var clMain: ConstraintLayout
+    private lateinit var clForEmptyBag: ConstraintLayout
+    private lateinit var btnExplore: MaterialButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +54,7 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
         binding = FragmentBagBinding.inflate(layoutInflater, container, false)
         // Inflate the layout for this fragment
 
+        Checkout.preload(requireContext())
         val uid = Firebase.auth.currentUser?.uid
         dao = Dao(
             Firebase.database.getReference(uid.toString()).child(BagItems::class.java.simpleName)
@@ -59,8 +62,6 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
         contextt = binding.root.context
         initViews()
         hideStuff()
-        Checkout.preload(requireContext())
-
         getData()
 
         payNow.setOnClickListener {
@@ -68,7 +69,8 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
 
         }
         btnExplore.setOnClickListener {
-            (activity as AppCompatActivity).findViewById<BottomNavigationView>(R.id.bottomNavBar).selectedItemId = R.id.homeNavBar
+            (activity as AppCompatActivity).findViewById<BottomNavigationView>(R.id.bottomNavBar).selectedItemId =
+                R.id.homeNavBar
         }
         return binding.root
     }
@@ -83,17 +85,14 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
                         item?.key = dataSnapshot.key
                         if (item != null && !list.contains(item)) {
                             list.add(item)
-
                         }
-
                     }
+                    Log.e("TAG", "onCreateView: ${Thread.currentThread().name}")
                     setRecyclerView(list)
                     listGlobal = list
                     setTotalPrice(list)
                     showStuff()
-
-                }
-                else{
+                } else {
                     emptyBag()
                 }
             }
@@ -103,7 +102,6 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
             }
         }
         dao.get().addValueEventListener(valueEventListener)
-
     }
 
     private fun startPayment(price: Int) {
@@ -118,8 +116,8 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
             options.put("name", "Food Orderer")
             options.put("description", "Order Payment")
             options.put("currency", "INR")
-//            options.put("order_id", "order_DBJOWzybf0sJbb");
             options.put("amount", price * 100)//pass amount in currency subunits
+            options.put("theme.color", "#f54748")
 
             val retryObj = JSONObject()
             retryObj.put("enabled", true)
@@ -148,26 +146,27 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
 
     private fun setTotalPrice(list: ArrayList<BagItems>) {
 
-        totalPrice = 0
-        Log.e("LISTEN", "showStuff: $list" )
-        for(i in 0 until list.size){
-            totalPrice += list[i].price!!
-            Log.e("TAG", "showStuff: $totalPrice" )
+        var price = 0
+        for (i in 0 until list.size) {
+            price += list[i].price!!
         }
 
-        val total = "₹$totalPrice"
+        val total = "₹$price"
         val text = HtmlCompat.fromHtml(
             "Total : <font color=000><b>$total</b></font>",
             HtmlCompat.FROM_HTML_MODE_COMPACT
         )
         tvPrice.text = text
+        totalPrice = price
     }
 
     private fun hideStuff() {
         val gone = View.GONE
         clMain.visibility = gone
     }
-    private fun showStuff(){
+
+    private fun showStuff() {
+        progressBar.hide()
         clMain.visibility = View.VISIBLE
     }
 
@@ -178,8 +177,10 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
         clMain = binding.clBag
         clForEmptyBag = binding.clForEmptyBag
         btnExplore = binding.btnBuyEmptyBag
+        progressBar = binding.progressBarBag
     }
-    private fun emptyBag(){
+
+    private fun emptyBag() {
         val gone = View.GONE
         val visible = View.VISIBLE
         clForEmptyBag.visibility = visible
@@ -189,15 +190,14 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
 
     override fun onDecButtonClick(view: View, position: Int) {
 
-        totalPrice = 0
         var quantity = listGlobal[position].quantity
         var price = listGlobal[position].price
-        val hashMap = HashMap<String,Any>()
+        val hashMap = HashMap<String, Any>()
         val key = listGlobal[position].key!!
-        if(price!=null && quantity!=null){
-            val singleItemPrice = price/quantity
+        if (price != null && quantity != null) {
+            val singleItemPrice = price / quantity
 
-            if(quantity > 1){
+            if (quantity > 1) {
                 quantity--
                 price -= singleItemPrice
 
@@ -208,24 +208,25 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
                 setRecyclerView(listGlobal)
                 updateBag(key, hashMap)
 
-            }else if (quantity == 1){
+            } else if (quantity == 1) {
                 listGlobal.removeAt(position)
                 setRecyclerView(listGlobal)
                 dao.remove(key)
-//                showStuff(listGlobal)
             }
         }
     }
 
     override fun onIncButtonClick(view: View, position: Int) {
-        totalPrice = 0
-        var quantity = listGlobal[position].quantity
-        var price = listGlobal[position].price
-        val hashMap = HashMap<String,Any>()
-        val key = listGlobal[position].key!!
-        if(price!=null && quantity!=null){
-            val singleItemPrice = price/quantity
-            
+
+        if (listGlobal[position].quantity!! < 10) {
+
+            var quantity = listGlobal[position].quantity
+            var price = listGlobal[position].price
+            val hashMap = HashMap<String, Any>()
+            val key = listGlobal[position].key!!
+            if (price != null && quantity != null) {
+                val singleItemPrice = price / quantity
+
                 quantity++
                 price += singleItemPrice
 
@@ -235,12 +236,14 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
                 listGlobal[position].price = price
                 setRecyclerView(listGlobal)
                 updateBag(key, hashMap)
-
+            }
+        } else {
+            Toast.makeText(requireContext(), "Maximum items to buy are 10.", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
     private fun updateBag(key: String, hashMap: HashMap<String, Any>) {
-//        Log.e("TAG", "updateBag: ")
         dao.update(key, hashMap)
     }
 }

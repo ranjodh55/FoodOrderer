@@ -31,11 +31,6 @@ class BagRecyclerAdapter(
                 listener.onIncButtonClick(it,absoluteAdapterPosition)
             }
         }
-
-//        override fun onClick(p0: View?) {
-//            listener.onDecButtonClick(absoluteAdapterPosition)
-////            listener.onIncButtonClick(absoluteAdapterPosition)
-//        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BagViewHolder {

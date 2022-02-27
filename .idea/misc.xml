@@ -6,20 +6,28 @@
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/background.xml" value="0.2671875" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/bg_gradient.xml" value="0.298" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/bottom_sheet_bg.xml" value="0.2671875" />
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/custom_toast_bg.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_account.xml" value="0.2671875" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_arrow_dec.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_arrow_inc.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_decrease.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_gps.xml" value="0.2671875" />
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_home.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_increase.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_launcher.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_launcher_dark.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_loading.xml" value="0.212" />
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_location.xml" value="0.298" />
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_location_.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_love.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_menu.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_profile.xml" value="0.2671875" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_rupee.xml" value="0.212" />
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_something_wrong.xml" value="0.212" />
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_star_rate.xml" value="0.212" />
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_time.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/profile_bg.xml" value="0.2671875" />
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/progress_bar_bg.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/rounded_bg_with_main_bg_color.xml" value="0.2671875" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/rounded_imageview.xml" value="0.2671875" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/splash_background.xml" value="0.212" />
@@ -33,8 +41,11 @@
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/activity_splash_acivity.xml" value="0.2942708333333333" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/address_bottom_sheet_layout.xml" value="0.2942708333333333" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/bottom_sheet_layout.xml" value="0.25104166666666666" />
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/collect_user_info.xml" value="0.2942708333333333" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/custom_action_bar.xml" value="0.25104166666666666" />
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/custom_toast.xml" value="0.2942708333333333" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/fragment_bag.xml" value="0.2942708333333333" />
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/fragment_collect_user_info.xml" value="0.2942708333333333" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/fragment_home.xml" value="0.2942708333333333" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/fragment_item_list_dialog_list_dialog.xml" value="0.2942708333333333" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/layout/fragment_item_list_dialog_list_dialog_item.xml" value="0.2942708333333333" />

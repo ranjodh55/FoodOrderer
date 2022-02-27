@@ -8,12 +8,12 @@
 
     <item
         android:id="@+id/bagNavBar"
-        android:icon="@drawable/ic_bag"
+        android:icon="@drawable/ic_bag_"
         android:title="@string/bag" />
 
     <item
         android:id="@+id/AccountNavBar"
-        android:icon="@drawable/ic_account"
+        android:icon="@drawable/ic_profile"
         android:title="@string/account" />
 
 </menu>

@@ -37,4 +37,17 @@
     <string name="don_t_let_us_eat_all_alone">Don\'t let us eat all alone.</string>
     <string name="explore">Explore</string>
     <string name="cartoon_cooking_food">Cartoon cooking food.</string>
+    <string name="items_in_bag">Items in Bag</string>
+    <string name="go_to_bag">Go to Bag</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="pincode">Pincode</string>
+    <string name="area_locality">Area/Locality</string>
+    <string name="house_flat_no">House/Flat No.</string>
+    <string name="mobile_no">Mobile No.</string>
+    <string name="name">Name</string>
+    <string name="login_or_signup">Login or SignUp</string>
+    <string name="love">Love</string>
+    <string name="add">Add</string>
+    <string name="item_added_to_bag">Item added to bag.</string>
 </resources>

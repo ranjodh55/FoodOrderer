@@ -4,6 +4,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
 import the.mrsmile.foodorderer.models.BagItems
+import the.mrsmile.foodorderer.models.User
 
 class Dao(private var databaseReference : DatabaseReference) {
 
@@ -11,7 +12,7 @@ class Dao(private var databaseReference : DatabaseReference) {
         return databaseReference.orderByKey()
     }
 
-    fun add(item : BagItems) : Task<Void> {
+    fun addBagItem(item : BagItems) : Task<Void> {
         return databaseReference.push().setValue(item)
     }
 
@@ -20,5 +21,8 @@ class Dao(private var databaseReference : DatabaseReference) {
     }
     fun remove(key: String) : Task<Void> {
         return databaseReference.child(key).removeValue()
+    }
+    fun addUserInfo(item : User) : Task<Void>{
+        return databaseReference.setValue(item)
     }
 }

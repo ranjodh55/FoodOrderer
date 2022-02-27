@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -15,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -52,6 +54,10 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
     private lateinit var daoBag: Dao
     private lateinit var auth: FirebaseAuth
     private lateinit var toolbar: Toolbar
+    private lateinit var goToBagLayout: RelativeLayout
+    private lateinit var btnGoToBag: MaterialButton
+    private lateinit var svMainActivity: NestedScrollView
+    private lateinit var progressBar: LinearProgressIndicator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,9 +67,9 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
 
         initAllDao()
+        initViews()
         hideStuff()
 
-        toolbar = binding.toolBar
         toolbar.title = ""
         (activity as AppCompatActivity?)!!.setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
@@ -80,12 +86,26 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
             showStuff()
         }
 
+        btnGoToBag.setOnClickListener {
+            (activity as AppCompatActivity).findViewById<BottomNavigationView>(R.id.bottomNavBar).selectedItemId =
+                R.id.bagNavBar
+            goToBagLayout.visibility = View.GONE
+        }
+
         return binding.root
+    }
+
+    private fun initViews() {
+        toolbar = binding.toolBar
+        viewPager = binding.viewPager
+        svMainActivity = binding.svMainActivity
+        progressBar = binding.progressBar
+        btnGoToBag = binding.btnGoToBag
+        goToBagLayout = binding.rlGoToBag
     }
 
     private fun setViewPager(list: ArrayList<CategoryItems>) {
 
-        viewPager = binding.viewPager
         viewPagerAdapter = ViewPagerAdapter(list, this, requireContext())
         Log.e(log, listCategoryGlobal.toString())
         viewPager!!.adapter = viewPagerAdapter
@@ -262,7 +282,7 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
                 for (i in 0 until listBagGlobal.size) {
                     if (listBagGlobal[i].name == item.name) {
                         flag = true
-                        pos =i
+                        pos = i
                     }
                 }
                 if (flag) {
@@ -270,13 +290,13 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
                         item.quantity?.let { it1 ->
                             listBagGlobal[pos].quantity?.plus(it1)
                         }
-                    val priceNew = item.price?.let { it2->
+                    val priceNew = item.price?.let { it2 ->
                         listBagGlobal[pos].price?.plus(it2)
                     }
                     item.quantity = quantityNew
                     val hashMap = HashMap<String, Any>()
                     val key = listBagGlobal[pos].key
-                    if (quantityNew != null && priceNew!=null) {
+                    if (quantityNew != null && priceNew != null) {
                         hashMap["quantity"] = quantityNew
                         hashMap["price"] = priceNew
                     }
@@ -287,8 +307,7 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
                     pushBagItems(item)
                 }
 
-            }else if(listBagGlobal.isNullOrEmpty()){
-                Log.e("TAG", "onRecommendedItemClick: $listBagGlobal" )
+            } else if (listBagGlobal.isNullOrEmpty()) {
                 pushBagItems(item)
             }
             bottomSheetDialog.dismiss()
@@ -334,12 +353,12 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
     }
 
     private fun hideStuff() {
-        binding.svMainActivity.visibility = View.INVISIBLE
+        svMainActivity.visibility = View.INVISIBLE
     }
 
-    fun showStuff() {
-        binding.svMainActivity.visibility = View.VISIBLE
-        binding.progressBar.hide()
+    private fun showStuff() {
+        svMainActivity.visibility = View.VISIBLE
+        progressBar.hide()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -378,32 +397,22 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
     }
 
     private fun pushBagItems(item: BagItems) {
-        daoBag.add(item).addOnCompleteListener {
-            if(it.isSuccessful)
-            showSnackbar()
+        daoBag.addBagItem(item).addOnCompleteListener {
+            if (it.isSuccessful)
+//            showSnackbar()
+                showBag()
         }
     }
 
     private fun updateBagItems(key: String, hashMap: HashMap<String, Any>) {
         daoBag.update(key, hashMap).addOnCompleteListener {
             if (it.isSuccessful) {
-                showSnackbar()
+                showBag()
             }
         }
     }
 
-    private fun showSnackbar() {
-        Snackbar.make(binding.root, "Items in bag", Snackbar.LENGTH_LONG)
-            .setAction(
-                "Go to bag"
-            ) {
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.flMainACtivity, BagFragment()).commit()
-                activity?.findViewById<BottomNavigationView>(R.id.bottomNavBar)?.selectedItemId =
-                    R.id.bagNavBar
-            }.setAnchorView(R.id.bottomNavBar)
-            .setBackgroundTint(resources.getColor(R.color.green))
-            .setActionTextColor(resources.getColor(R.color.white))
-            .show()
+    private fun showBag() {
+        goToBagLayout.visibility = View.VISIBLE
     }
 }
