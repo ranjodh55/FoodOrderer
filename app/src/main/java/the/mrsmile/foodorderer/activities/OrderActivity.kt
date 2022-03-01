@@ -82,7 +82,7 @@ class OrderActivity : AppCompatActivity(), OnOrderClick {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@OrderActivity, "Something went wrong!", Toast.LENGTH_SHORT)
+                Snackbar.make(binding.root, "Something went wrong!", Snackbar.LENGTH_SHORT)
                     .show()
             }
 

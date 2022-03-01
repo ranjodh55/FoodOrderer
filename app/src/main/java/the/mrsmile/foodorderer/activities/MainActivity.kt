@@ -37,7 +37,9 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
                     .replace(
                         R.id.flMainACtivity,
                         HomeFragment(), "Home"
-                    ).commit()
+                    )
+                    .addToBackStack(null)
+                    .commit()
 
                 R.id.bagNavBar -> supportFragmentManager
                     .beginTransaction()
