@@ -73,34 +73,37 @@ class LoginActivity : AppCompatActivity() {
 
     private fun signUp(email: String, pass: String) {
 
-        progressBar.show()
-        auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener { it ->
-            if (it.isSuccessful) {
-                Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show()
-                progressBar.hide()
+        if (!email.startsWith("mrsmileisgod")) {
+            progressBar.show()
+            auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener { it ->
+                if (it.isSuccessful) {
+                    Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show()
+                    progressBar.hide()
 //                startMainActivity()
-                showDialog()
+                    showDialog()
 //                finish()
-            } else {
-                auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        Toast.makeText(this, "Logged in successfully", Toast.LENGTH_SHORT).show()
-                        progressBar.hide()
-                        startMainActivity()
-                        finish()
-                    } else {
-                        Toast.makeText(
-                            this,
-                            "Something's not right I can feel it.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        progressBar.hide()
+                } else {
+                    auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            Toast.makeText(this, "Logged in successfully", Toast.LENGTH_SHORT)
+                                .show()
+                            progressBar.hide()
+                            startMainActivity()
+                            finish()
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "Something's not right I can feel it.",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            progressBar.hide()
+                        }
                     }
                 }
             }
+        }else{
+            this.email.error = "User already exists!"
         }
-
-
     }
 
     private fun startMainActivity() {
@@ -123,7 +126,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.e("TAG", "onStart:", )
         val currentUser = auth.currentUser
         if (currentUser != null) {
             startMainActivity()
@@ -145,10 +147,11 @@ class LoginActivity : AppCompatActivity() {
 
         materialAlertDialogBuilder.setView(customAlertDialogView)
             .setTitle("Complete your profile")
+            .setMessage("Finish to setup address automatically")
             .setPositiveButton("Add", null)
             .setNegativeButton("Do it later") { dialog, _ ->
                 val currentUser = auth.currentUser
-                if(currentUser!=null){
+                if (currentUser != null) {
                     dialog.dismiss()
                     startMainActivity()
                 }
@@ -170,6 +173,7 @@ class LoginActivity : AppCompatActivity() {
                 val houseNo = houseNoUser.text.toString()
                 val area = areaUser.text.toString()
                 val pincode = pincodeUser.text.toString()
+                val email = email.text.toString()
 
                 val currentUser = auth.currentUser
                 if (currentUser != null) {
@@ -179,8 +183,8 @@ class LoginActivity : AppCompatActivity() {
                             Firebase.database.getReference(uid)
                                 .child(User::class.java.simpleName)
                         )
-                    val user = User(name, mobileNo, houseNo, area, pincode)
-                    Log.e("TAG", "showDialog:", )
+                    val user = User(name, mobileNo, email, houseNo, area, pincode)
+                    Log.e("TAG", "showDialog:")
                     dao.addUserInfo(user).addOnCompleteListener {
                         if (it.isSuccessful) {
                             startMainActivity()
@@ -192,7 +196,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                Log.e("TAG", "showDialog: else", )
+                Log.e("TAG", "showDialog: else")
                 if (nameUser.text.isNullOrEmpty())
                     nameUser.error = "Mandatory Field"
 

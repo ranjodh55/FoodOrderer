@@ -11,9 +11,7 @@ import android.widget.ImageView
 import the.mrsmile.foodorderer.R
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.squareup.picasso.Picasso
 import the.mrsmile.foodorderer.models.OrderActivityItems
-import the.mrsmile.foodorderer.models.RecommendedItems
 
 class OrdersAdapter(var list: List<OrderActivityItems>, var listener: OnOrderClick, var context: Context) :
     RecyclerView.Adapter<OrdersViewHolder>() {

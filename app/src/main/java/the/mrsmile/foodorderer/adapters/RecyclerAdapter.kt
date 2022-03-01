@@ -1,8 +1,7 @@
 package the.mrsmile.foodorderer.adapters
 
 import android.content.Context
-import android.util.Log
-import the.mrsmile.foodorderer.models.RecommendedItems
+import the.mrsmile.foodorderer.models.PopularItems
 import androidx.recyclerview.widget.RecyclerView
 import the.mrsmile.foodorderer.adapters.RecyclerAdapter.RecyclerViewHolder
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 
 class RecyclerAdapter(
-    private var list: List<RecommendedItems>,
+    private var list: List<PopularItems>,
     var listener: OnRecommendedClick,
     val context: Context
 ) :

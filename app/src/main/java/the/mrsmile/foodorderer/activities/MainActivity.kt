@@ -10,6 +10,7 @@ import the.mrsmile.foodorderer.fragments.BagFragment
 import the.mrsmile.foodorderer.fragments.HomeFragment
 import the.mrsmile.foodorderer.R
 import the.mrsmile.foodorderer.databinding.ActivityMainBinding
+import the.mrsmile.foodorderer.fragments.ProfileFragment
 
 
 class MainActivity : AppCompatActivity(), PaymentResultListener {
@@ -44,13 +45,10 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
                     .addToBackStack("Home")
                     .commit()
 
-//                R.id.AccountNavBar-> {
-//                    val auth = Firebase.auth
-//                    auth.signOut()
-//                    Intent(this,LoginActivity::class.java).apply {
-//                        startActivity(this)
-//                    }
-//                }
+                R.id.AccountNavBar -> supportFragmentManager
+                    .beginTransaction().replace(R.id.flMainACtivity, ProfileFragment())
+                    .addToBackStack("Home")
+                    .commit()
             }
             true
         }

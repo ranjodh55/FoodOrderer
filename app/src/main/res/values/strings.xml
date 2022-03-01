@@ -50,4 +50,5 @@
     <string name="love">Love</string>
     <string name="add">Add</string>
     <string name="item_added_to_bag">Item added to bag.</string>
+    <string name="popular">Popular Now</string>
 </resources>

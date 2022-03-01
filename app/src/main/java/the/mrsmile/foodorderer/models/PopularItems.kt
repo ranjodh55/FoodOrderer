@@ -3,7 +3,7 @@ package the.mrsmile.foodorderer.models
 import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
-data class RecommendedItems(
+data class PopularItems(
     val title: String? = null,
     val desc: String? = null,
     val price: Int? = null,

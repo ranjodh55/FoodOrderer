@@ -36,7 +36,7 @@ import the.mrsmile.foodorderer.database.Dao
 import the.mrsmile.foodorderer.databinding.FragmentHomeBinding
 import the.mrsmile.foodorderer.models.BagItems
 import the.mrsmile.foodorderer.models.CategoryItems
-import the.mrsmile.foodorderer.models.RecommendedItems
+import the.mrsmile.foodorderer.models.PopularItems
 
 
 class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
@@ -44,7 +44,7 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
 
     private lateinit var binding: FragmentHomeBinding
     private var viewPager: ViewPager2? = null
-    private var listRecommendedGlobal: ArrayList<RecommendedItems> = ArrayList()
+    private var listPopularGlobal: ArrayList<PopularItems> = ArrayList()
     private var listCategoryGlobal: ArrayList<CategoryItems> = ArrayList()
     private var listBagGlobal: ArrayList<BagItems> = ArrayList()
     private var viewPagerAdapter: ViewPagerAdapter? = null
@@ -75,14 +75,14 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
         setHasOptionsMenu(true)
 
 
-        if (listCategoryGlobal.isEmpty() && listRecommendedGlobal.isEmpty()) {
+        if (listCategoryGlobal.isEmpty() && listPopularGlobal.isEmpty()) {
             getBagData()
             getRecommendedItemsData()
             getCategoryItemData()
 
         } else {
             setViewPager(listCategoryGlobal)
-            setRecyclerRecommended(listRecommendedGlobal)
+            setRecyclerRecommended(listPopularGlobal)
             showStuff()
         }
 
@@ -162,20 +162,20 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
 
     private fun getRecommendedItemsData() {
 
-        val list = ArrayList<RecommendedItems>()
+        val list = ArrayList<PopularItems>()
 
         daoRecommended.get().addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 for (dataSnapshot in snapshot.children) {
-                    val item = dataSnapshot.getValue(RecommendedItems::class.java)
+                    val item = dataSnapshot.getValue(PopularItems::class.java)
 
                     if (item != null && !list.contains(item)) {
                         list.add(item)
                     }
                 }
                 setRecyclerRecommended(list)
-                listRecommendedGlobal = list
+                listPopularGlobal = list
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -185,7 +185,7 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
         })
     }
 
-    private fun setRecyclerRecommended(list: ArrayList<RecommendedItems>) {
+    private fun setRecyclerRecommended(list: ArrayList<PopularItems>) {
         val recyclerView = binding.recyclerRecommended
         val recyclerAdapter = RecyclerAdapter(list, this, requireContext())
         recyclerView.adapter = recyclerAdapter
@@ -241,14 +241,14 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
             bottomSheetDialog.findViewById<MaterialButton>(R.id.btnBuyBottomSheetOrders)
 
 
-        rating?.text = listRecommendedGlobal[position].rating
-        calories?.text = listRecommendedGlobal[position].calories
-        time?.text = listRecommendedGlobal[position].time
+        rating?.text = listPopularGlobal[position].rating
+        calories?.text = listPopularGlobal[position].calories
+        time?.text = listPopularGlobal[position].time
 
 
-        itemName?.text = listRecommendedGlobal[position].title
-        itemPrice?.text = listRecommendedGlobal[position].price.toString()
-        itemDesc?.text = listRecommendedGlobal[position].desc
+        itemName?.text = listPopularGlobal[position].title
+        itemPrice?.text = listPopularGlobal[position].price.toString()
+        itemDesc?.text = listPopularGlobal[position].desc
 
         counterDecrease?.setOnClickListener {
 
@@ -266,11 +266,11 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
 
         btnAddToBag?.setOnClickListener {
 
-            val timeBag = listRecommendedGlobal[position].time
-            val name = listRecommendedGlobal[position].title
+            val timeBag = listPopularGlobal[position].time
+            val name = listPopularGlobal[position].title
             val quantity = count
-            val imageBag = listRecommendedGlobal[position].image
-            val price = listRecommendedGlobal[position].price
+            val imageBag = listPopularGlobal[position].image
+            val price = listPopularGlobal[position].price
 
             val totalAmount = price?.times(quantity)
 
@@ -314,7 +314,7 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
         }
 
 
-        Glide.with(this).load(listRecommendedGlobal[position].image)
+        Glide.with(this).load(listPopularGlobal[position].image)
             .placeholder(R.drawable.placeholder2).into(image!!)
 
         bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -392,7 +392,7 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
         )
 
         daoRecommended =
-            Dao(Firebase.database.getReference(RecommendedItems::class.java.simpleName))
+            Dao(Firebase.database.getReference(PopularItems::class.java.simpleName))
         daoCategory = Dao(Firebase.database.getReference(CategoryItems::class.java.simpleName))
     }
 
