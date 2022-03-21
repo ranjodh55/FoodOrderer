@@ -10,5 +10,5 @@ data class PopularItems(
     val image: String? = null,
     val rating: String? = null,
     val calories: String? = null,
-    val time: String? = null
+    val time: Int? = null
 )

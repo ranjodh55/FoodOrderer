@@ -3,7 +3,6 @@ package the.mrsmile.foodorderer.fragments
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -31,17 +30,21 @@ import the.mrsmile.foodorderer.adapters.BagRecyclerAdapter
 import the.mrsmile.foodorderer.database.Dao
 import the.mrsmile.foodorderer.databinding.FragmentBagBinding
 import the.mrsmile.foodorderer.models.BagItems
+import the.mrsmile.foodorderer.models.User
 
 class BagFragment : Fragment(), BagRecyclerAdapter.Click {
 
     private lateinit var progressBar: CircularProgressIndicator
     private lateinit var binding: FragmentBagBinding
-    private lateinit var dao: Dao
+    private lateinit var daoBag: Dao
+    private lateinit var daoUser: Dao
     private lateinit var listGlobal: ArrayList<BagItems>
-    private lateinit var delivery: TextView
+    private lateinit var deliveryIn: TextView
+    private lateinit var deliveryAt: TextView
     private lateinit var tvPrice: TextView
     private lateinit var payNow: MaterialButton
     private var totalPrice = 0
+    private lateinit var user: User
     private lateinit var contextt: Context
     private lateinit var clMain: ConstraintLayout
     private lateinit var clForEmptyBag: ConstraintLayout
@@ -54,15 +57,18 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
         binding = FragmentBagBinding.inflate(layoutInflater, container, false)
         // Inflate the layout for this fragment
 
-        Checkout.preload(requireContext())
+//        Checkout.preload(requireContext())
         val uid = Firebase.auth.currentUser?.uid
-        dao = Dao(
+        daoBag = Dao(
             Firebase.database.getReference(uid.toString()).child(BagItems::class.java.simpleName)
         )
+        daoUser =
+            Dao(Firebase.database.getReference(uid.toString()).child(User::class.java.simpleName))
         contextt = binding.root.context
         initViews()
         hideStuff()
-        getData()
+//        getData()
+        getUserData()
 
         payNow.setOnClickListener {
             startPayment(totalPrice)
@@ -87,7 +93,6 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
                             list.add(item)
                         }
                     }
-                    Log.e("TAG", "onCreateView: ${Thread.currentThread().name}")
                     setRecyclerView(list)
                     listGlobal = list
                     setTotalPrice(list)
@@ -101,7 +106,48 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
                 Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_SHORT).show()
             }
         }
-        dao.get().addValueEventListener(valueEventListener)
+        daoBag.get().addValueEventListener(valueEventListener)
+    }
+
+    private fun getUserData() {
+        daoUser.get().addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val item = snapshot.getValue(User::class.java)
+                    if (item != null) {
+                        if (item.name?.isNotEmpty() == true
+                            && item.email?.isNotEmpty() == true
+                            && item.area?.isNotEmpty() == true
+                            && item.mobileNo?.isNotEmpty() == true
+                            && item.houseNo?.isNotEmpty() == true
+                            && item.pincode?.isNotEmpty() == true
+                        ) {
+                            user = item
+                            getData()
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "Please refill your information",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            activity?.supportFragmentManager?.beginTransaction()
+                                ?.replace(R.id.flMainACtivity, CompleteProfileFragment())
+                        }
+                    }
+
+                } else {
+//                    showStuff()
+                    binding.progressBarBag.hide()
+                    (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
+                        .replace(R.id.flBag, CompleteProfileFragment()).commit()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "error $error", Toast.LENGTH_SHORT).show()
+            }
+
+        })
     }
 
     private fun startPayment(price: Int) {
@@ -125,13 +171,13 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
             options.put("retry", retryObj)
 
             val prefill = JSONObject()
-            prefill.put("email", "mrsmileisgod@gmail.com")
-            prefill.put("contact", "9501275587")
+            prefill.put("email", user.email)
+            prefill.put("contact", user.mobileNo)
 
             options.put("prefill", prefill)
             co.open(activity, options)
         } catch (e: Exception) {
-            Toast.makeText(activity, "Error in payment: " + e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(activity, "Error in payment: ", Toast.LENGTH_LONG).show()
             e.printStackTrace()
         }
     }
@@ -167,17 +213,35 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
 
     private fun showStuff() {
         progressBar.hide()
+        val address = user.houseNo + " " + user.area + ", " + user.pincode
+        deliveryAt.text = address
+        var time = 0
+        if (listGlobal.size < 5 && listGlobal.isNotEmpty()) {
+            if (listGlobal[0].time != null)
+                time = listGlobal[0].time!!
+        } else {
+            var tempTime = 0
+            for (i in 0 until listGlobal.size) {
+                if (listGlobal[i].time != null)
+                    tempTime += listGlobal[i].time!!
+            }
+            time = tempTime / 3
+        }
+        val text = "Delivery in $time minutes"
+        deliveryIn.text = text
         clMain.visibility = View.VISIBLE
     }
 
     private fun initViews() {
         tvPrice = binding.tvTotalBag
-        delivery = binding.tvDeliveryInBag
+        deliveryIn = binding.tvDeliveryInBag
+        deliveryAt = binding.tvDeliveryAt
         payNow = binding.btnPayNowBag
         clMain = binding.clBag
         clForEmptyBag = binding.clForEmptyBag
         btnExplore = binding.btnBuyEmptyBag
         progressBar = binding.progressBarBag
+
     }
 
     private fun emptyBag() {
@@ -211,7 +275,7 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
             } else if (quantity == 1) {
                 listGlobal.removeAt(position)
                 setRecyclerView(listGlobal)
-                dao.remove(key)
+                daoBag.remove(key)
             }
         }
     }
@@ -244,6 +308,6 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
     }
 
     private fun updateBag(key: String, hashMap: HashMap<String, Any>) {
-        dao.update(key, hashMap)
+        daoBag.update(key, hashMap)
     }
 }

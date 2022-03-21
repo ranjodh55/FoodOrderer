@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/flBag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.BagFragment">
@@ -52,26 +53,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvTimeBag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="@string/placeholder"
-            app:layout_constraintBottom_toBottomOf="@id/ivTimeBag"
-            app:layout_constraintStart_toEndOf="@id/ivTimeBag"
-            app:layout_constraintTop_toTopOf="@id/ivTimeBag" />
-
-        <ImageView
-            android:id="@+id/ivTimeBag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_time"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDeliveryAt" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBag"
             android:layout_width="match_parent"
@@ -83,7 +64,7 @@
             app:layout_constraintBottom_toTopOf="@id/cardViewBag"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTimeBag" />
+            app:layout_constraintTop_toBottomOf="@id/tvDeliveryAt" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardViewBag"
@@ -132,9 +113,8 @@
                     android:text="@string/delivery_in"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

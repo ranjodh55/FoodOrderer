@@ -243,7 +243,7 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
 
         rating?.text = listPopularGlobal[position].rating
         calories?.text = listPopularGlobal[position].calories
-        time?.text = listPopularGlobal[position].time
+        time?.text = listPopularGlobal[position].time.toString()
 
 
         itemName?.text = listPopularGlobal[position].title

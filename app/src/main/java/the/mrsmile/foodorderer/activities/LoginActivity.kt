@@ -62,8 +62,6 @@ class LoginActivity : AppCompatActivity() {
         progressBar = binding.progressBarLoginActivity
 
         binding.btnSignUp.setOnClickListener {
-
-//            showDialog()
             hideKeyboard(this)
             if (email.text.isNotEmpty() && pass.text.isNotEmpty())
                 signUp(email.text.toString(), pass.text.toString())
@@ -77,23 +75,49 @@ class LoginActivity : AppCompatActivity() {
             progressBar.show()
             auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener { it ->
                 if (it.isSuccessful) {
-                    Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show()
                     progressBar.hide()
-//                startMainActivity()
-                    showDialog()
-//                finish()
+                    auth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            Toast.makeText(
+                                this,
+                                "Check your inbox and verify email.",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            progressBar.hide()
+                        }
+                    }
                 } else {
                     auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                         if (it.isSuccessful) {
-                            Toast.makeText(this, "Logged in successfully", Toast.LENGTH_SHORT)
-                                .show()
-                            progressBar.hide()
-                            startMainActivity()
-                            finish()
+                            if (auth.currentUser?.isEmailVerified == true) {
+                                Toast.makeText(this, "Logged in successfully", Toast.LENGTH_SHORT)
+                                    .show()
+                                progressBar.hide()
+                                startMainActivity()
+                                finish()
+                            }else{
+                                auth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
+                                    if(it.isSuccessful){
+                                        Toast.makeText(
+                                            this,
+                                            "Check your inbox and verify email.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        progressBar.hide()
+                                    }else{
+                                        Toast.makeText(
+                                            this,
+                                            "Something's not right I can feel it. ",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                        progressBar.hide()
+                                    }
+                                }
+                            }
                         } else {
                             Toast.makeText(
                                 this,
-                                "Something's not right I can feel it.",
+                                "Something's not right I can feel it. ",
                                 Toast.LENGTH_LONG
                             ).show()
                             progressBar.hide()
@@ -101,7 +125,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             }
-        }else{
+        } else {
             this.email.error = "User already exists!"
         }
     }
@@ -127,91 +151,90 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         val currentUser = auth.currentUser
-        if (currentUser != null) {
+        if (currentUser != null && currentUser.isEmailVerified) {
             startMainActivity()
             finish()
         }
 
     }
 
-    private fun showDialog() {
-        val dialogBinding = CollectUserInfoBinding.inflate(layoutInflater)
-        customAlertDialogView = dialogBinding.root
-        nameUser = dialogBinding.etNameUser
-        mobileUser = dialogBinding.etMobileNoUser
-        houseNoUser = dialogBinding.etHouseNoUser
-        areaUser = dialogBinding.etArea
-        pincodeUser = dialogBinding.etPincodeUser
-
-        nameUser.requestFocus()
-
-        materialAlertDialogBuilder.setView(customAlertDialogView)
-            .setTitle("Complete your profile")
-            .setMessage("Finish to setup address automatically")
-            .setPositiveButton("Add", null)
-            .setNegativeButton("Do it later") { dialog, _ ->
-                val currentUser = auth.currentUser
-                if (currentUser != null) {
-                    dialog.dismiss()
-                    startMainActivity()
-                }
-            }
-
-        val dialog = materialAlertDialogBuilder.create()
-        dialog.setCancelable(false)
-        dialog.show()
-        val btn = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-        btn.setOnClickListener {
-            if (nameUser.text?.isNotEmpty() == true
-                && mobileUser.text?.isNotEmpty() == true
-                && houseNoUser.text?.isNotEmpty() == true
-                && areaUser.text?.isNotEmpty() == true
-                && pincodeUser.text?.isNotEmpty() == true
-            ) {
-                val name = nameUser.text.toString()
-                val mobileNo = mobileUser.text.toString()
-                val houseNo = houseNoUser.text.toString()
-                val area = areaUser.text.toString()
-                val pincode = pincodeUser.text.toString()
-                val email = email.text.toString()
-
-                val currentUser = auth.currentUser
-                if (currentUser != null) {
-                    val uid = currentUser.uid
-                    dao =
-                        Dao(
-                            Firebase.database.getReference(uid)
-                                .child(User::class.java.simpleName)
-                        )
-                    val user = User(name, mobileNo, email, houseNo, area, pincode)
-                    Log.e("TAG", "showDialog:")
-                    dao.addUserInfo(user).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            startMainActivity()
-                            finish()
-                        } else {
-                            Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }
-                }
-            } else {
-                Log.e("TAG", "showDialog: else")
-                if (nameUser.text.isNullOrEmpty())
-                    nameUser.error = "Mandatory Field"
-
-                if (mobileUser.text.isNullOrEmpty())
-                    mobileUser.error = "Mandatory Field"
-
-                if (houseNoUser.text.isNullOrEmpty())
-                    houseNoUser.error = "Mandatory Field"
-
-                if (areaUser.text.isNullOrEmpty())
-                    areaUser.error = "Mandatory Field"
-
-                if (pincodeUser.text.isNullOrEmpty())
-                    pincodeUser.error = "Mandatory Field"
-            }
-        }
-    }
+//    private fun showDialog() {
+//        val dialogBinding = CollectUserInfoBinding.inflate(layoutInflater)
+//        customAlertDialogView = dialogBinding.root
+//        nameUser = dialogBinding.etNameUser
+//        mobileUser = dialogBinding.etMobileNoUser
+//        houseNoUser = dialogBinding.etHouseNoUser
+//        areaUser = dialogBinding.etArea
+//        pincodeUser = dialogBinding.etPincodeUser
+//
+//        nameUser.requestFocus()
+//
+//        materialAlertDialogBuilder.setView(customAlertDialogView)
+//            .setTitle("Complete your profile")
+//            .setMessage("Finish to setup address automatically")
+//            .setPositiveButton("Add", null)
+//            .setNegativeButton("Do it later") { dialog, _ ->
+//                val currentUser = auth.currentUser
+//                if (currentUser != null) {
+//                    dialog.dismiss()
+//                    startMainActivity()
+//                }
+//            }
+//
+//        val dialog = materialAlertDialogBuilder.create()
+//        dialog.setCancelable(false)
+//        dialog.show()
+//        val btn = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+//        btn.setOnClickListener {
+//            if (nameUser.text?.isNotEmpty() == true
+//                && mobileUser.text?.isNotEmpty() == true
+//                && houseNoUser.text?.isNotEmpty() == true
+//                && areaUser.text?.isNotEmpty() == true
+//                && pincodeUser.text?.isNotEmpty() == true
+//            ) {
+//                val name = nameUser.text.toString()
+//                val mobileNo = mobileUser.text.toString()
+//                val houseNo = houseNoUser.text.toString()
+//                val area = areaUser.text.toString()
+//                val pincode = pincodeUser.text.toString()
+//                val email = email.text.toString()
+//
+//                val currentUser = auth.currentUser
+//                if (currentUser != null) {
+//                    val uid = currentUser.uid
+//                    dao =
+//                        Dao(
+//                            Firebase.database.getReference(uid)
+//                                .child(User::class.java.simpleName)
+//                        )
+//                    val user = User(name, mobileNo, email, houseNo, area, pincode)
+//                    dao.addUserInfo(user).addOnCompleteListener {
+//                        if (it.isSuccessful) {
+//                            startMainActivity()
+//                            finish()
+//                        } else {
+//                            Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT)
+//                                .show()
+//                        }
+//                    }
+//                }
+//            } else {
+//                Log.e("TAG", "showDialog: else")
+//                if (nameUser.text.isNullOrEmpty())
+//                    nameUser.error = "Mandatory Field"
+//
+//                if (mobileUser.text.isNullOrEmpty())
+//                    mobileUser.error = "Mandatory Field"
+//
+//                if (houseNoUser.text.isNullOrEmpty())
+//                    houseNoUser.error = "Mandatory Field"
+//
+//                if (areaUser.text.isNullOrEmpty())
+//                    areaUser.error = "Mandatory Field"
+//
+//                if (pincodeUser.text.isNullOrEmpty())
+//                    pincodeUser.error = "Mandatory Field"
+//            }
+//        }
+//    }
 }

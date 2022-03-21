@@ -154,8 +154,9 @@ class OrderActivity : AppCompatActivity(), OnOrderClick {
             val name = listOrder[position].title
             val pricee = listOrder[position].price
             val imagee = listOrder[position].image
+            val time = listOrder[position].time
             val totalAmount = pricee?.times(count)
-            val item = (BagItems(null, name, count, imagee, totalAmount))
+            val item = (BagItems(time, name, count, imagee, totalAmount))
 
             var flag = false
             var pos = 0

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import the.mrsmile.foodorderer.fragments.BagFragment
 import the.mrsmile.foodorderer.fragments.HomeFragment
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
         setContentView(binding.root)
 
         initViews()
+        Checkout.preload(applicationContext)
         bottomAppBar.selectedItemId = R.id.homeNavBar
         currentFragment(HomeFragment())
         bottomAppBar.setOnItemSelectedListener {
