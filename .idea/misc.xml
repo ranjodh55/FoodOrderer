@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/address_type_tv_bg.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/background.xml" value="0.2671875" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/bg_gradient.xml" value="0.298" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/bottom_sheet_bg.xml" value="0.2671875" />
@@ -30,6 +31,7 @@
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_star_rate.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/ic_time.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/navbar_bg.xml" value="0.212" />
+        <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/on_click_address.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/profile_bg.xml" value="0.2671875" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/progress_bar_bg.xml" value="0.212" />
         <entry key="..\:/Android KOTLIN/CODE/FoodOrderer/app/src/main/res/drawable/rounded_bg_with_main_bg_color.xml" value="0.2671875" />

@@ -58,11 +58,10 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
         }
 
         bottomAppBar.setOnItemReselectedListener {
-            dumbCounter++
         }
     }
 
-    fun initViews() {
+    private fun initViews() {
         bottomAppBar = binding.bottomNavBar
     }
 

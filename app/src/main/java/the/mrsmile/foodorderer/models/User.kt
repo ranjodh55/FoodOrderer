@@ -6,5 +6,7 @@ data class User(
     val email: String? = null,
     val houseNo: String? = null,
     val area: String? = null,
-    val pincode: String? = null
+    val pincode: String? = null,
+    val city: String? = null,
+    val addressType: String? = null
 )

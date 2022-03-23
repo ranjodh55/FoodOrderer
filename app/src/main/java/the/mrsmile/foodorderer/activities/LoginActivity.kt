@@ -145,6 +145,7 @@ class LoginActivity : AppCompatActivity() {
             view = View(activity)
         }
         imm.hideSoftInputFromWindow(view.windowToken, 0)
+        Log.e("TAG", "hideKeyboard: ${imm.isActive}")
 
     }
 

@@ -361,28 +361,6 @@ class HomeFragment : Fragment(), ViewPagerAdapter.OnClickInterface,
         progressBar.hide()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main_menu_items, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        when (item.itemId) {
-            R.id.signOut -> {
-                auth.signOut()
-                if (auth.currentUser == null) {
-                    Toast.makeText(requireContext(), "Logged out successfully", Toast.LENGTH_SHORT)
-                        .show()
-                    Intent(requireContext(), LoginActivity::class.java).apply {
-                        startActivity(this)
-                    }
-                }
-            }
-        }
-
-        return true
-    }
-
     private fun initAllDao() {
         auth = Firebase.auth
         val uId = auth.currentUser?.uid
