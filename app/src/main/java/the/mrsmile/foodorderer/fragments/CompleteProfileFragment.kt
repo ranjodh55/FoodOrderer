@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -39,6 +40,7 @@ class CompleteProfileFragment : Fragment() {
     private lateinit var homeAddType: TextView
     private lateinit var workAddType: TextView
     private lateinit var otherAddType: TextView
+    private lateinit var cbIsDefault : CheckBox
     private lateinit var navBar: BottomNavigationView
     private lateinit var _activity: AppCompatActivity
     private lateinit var _context : Context
@@ -78,6 +80,7 @@ class CompleteProfileFragment : Fragment() {
             val city = etCity.text.toString()
             val email = auth.currentUser?.email.toString()
             val addressType = selectedAddressType()
+            var isDefault = false
 
 
             if (name.isNotEmpty()
@@ -90,7 +93,10 @@ class CompleteProfileFragment : Fragment() {
             ) {
 
                 progressBar.visibility = View.VISIBLE
-                val user = User(name, mobileNo, email, houseNo, area, pincode, city, addressType)
+                if(cbIsDefault.isChecked){
+                    isDefault = true
+                }
+                val user = User(name, mobileNo, email, houseNo, area, pincode, city, addressType,isDefault)
                 dao.addUserInfo(user).addOnCompleteListener {
                     if (it.isSuccessful) {
                         progressBar.hide()
@@ -149,6 +155,7 @@ class CompleteProfileFragment : Fragment() {
         etCity = binding.etCity
         auth = Firebase.auth
         _context = binding.root.context
+        cbIsDefault = binding.cbDefaultCPF
         dao = Dao(
             Firebase.database.getReference(auth.currentUser?.uid.toString())
                 .child(User::class.java.simpleName)

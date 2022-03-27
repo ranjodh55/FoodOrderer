@@ -5,19 +5,27 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import the.mrsmile.foodorderer.fragments.BagFragment
 import the.mrsmile.foodorderer.fragments.HomeFragment
 import the.mrsmile.foodorderer.R
+import the.mrsmile.foodorderer.database.Dao
 import the.mrsmile.foodorderer.databinding.ActivityMainBinding
 import the.mrsmile.foodorderer.fragments.ProfileFragment
+import the.mrsmile.foodorderer.models.BagItems
 
 
 class MainActivity : AppCompatActivity(), PaymentResultListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var bottomAppBar: BottomNavigationView
+    private lateinit var auth: FirebaseAuth
+    private lateinit var daoBag: Dao
     private var dumbCounter = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +37,7 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
         setContentView(binding.root)
 
         initViews()
+
         Checkout.preload(applicationContext)
         bottomAppBar.selectedItemId = R.id.homeNavBar
         currentFragment(HomeFragment())
@@ -63,6 +72,11 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
 
     private fun initViews() {
         bottomAppBar = binding.bottomNavBar
+        auth = Firebase.auth
+        daoBag = Dao(
+            Firebase.database.getReference(auth.currentUser?.uid.toString())
+                .child(BagItems::class.java.simpleName)
+        )
     }
 
     private fun currentFragment(fragment: Fragment) {
@@ -77,10 +91,14 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
     }
 
     override fun onPaymentSuccess(p0: String?) {
-        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+
+        daoBag.removeBagItems().addOnCompleteListener {
+            if (it.isSuccessful)
+                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onPaymentError(p0: Int, error: String?) {
-        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Payment Failed", Toast.LENGTH_SHORT).show()
     }
 }

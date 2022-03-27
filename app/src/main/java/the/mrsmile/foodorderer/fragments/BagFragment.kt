@@ -3,6 +3,8 @@ package the.mrsmile.foodorderer.fragments
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
+import android.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +14,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.text.HtmlCompat
+import androidx.core.view.get
+import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.Snackbar
@@ -27,8 +32,10 @@ import com.razorpay.Checkout
 import org.json.JSONObject
 import the.mrsmile.foodorderer.R
 import the.mrsmile.foodorderer.adapters.BagRecyclerAdapter
+import the.mrsmile.foodorderer.adapters.ListViewAdapter
 import the.mrsmile.foodorderer.database.Dao
 import the.mrsmile.foodorderer.databinding.FragmentBagBinding
+import the.mrsmile.foodorderer.databinding.SavedAddressBottomSheetBinding
 import the.mrsmile.foodorderer.models.BagItems
 import the.mrsmile.foodorderer.models.User
 
@@ -43,8 +50,9 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
     private lateinit var deliveryAt: TextView
     private lateinit var tvPrice: TextView
     private lateinit var payNow: MaterialButton
+    private lateinit var tvChange: MaterialButton
     private var totalPrice = 0
-    private lateinit var user: User
+    private lateinit var listUser: ArrayList<User>
     private lateinit var contextt: Context
     private lateinit var clMain: ConstraintLayout
     private lateinit var clForEmptyBag: ConstraintLayout
@@ -55,19 +63,17 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentBagBinding.inflate(layoutInflater, container, false)
-        // Inflate the layout for this fragment
+        contextt = binding.root.context
 
-//        Checkout.preload(requireContext())
         val uid = Firebase.auth.currentUser?.uid
         daoBag = Dao(
             Firebase.database.getReference(uid.toString()).child(BagItems::class.java.simpleName)
         )
         daoUser =
             Dao(Firebase.database.getReference(uid.toString()).child(User::class.java.simpleName))
-        contextt = binding.root.context
+
         initViews()
         hideStuff()
-//        getData()
         getUserData()
 
         payNow.setOnClickListener {
@@ -77,6 +83,57 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
         btnExplore.setOnClickListener {
             (activity as AppCompatActivity).findViewById<BottomNavigationView>(R.id.bottomNavBar).selectedItemId =
                 R.id.homeNavBar
+        }
+
+        tvChange.setOnClickListener {
+            var address = ""
+            val bindingBS = SavedAddressBottomSheetBinding.inflate(layoutInflater)
+            val bottomSheet = BottomSheetDialog(requireContext())
+            bottomSheet.setContentView(bindingBS.root)
+            val listView = bindingBS.lvAddressBottomSheet
+            val adapter = ListViewAdapter(requireContext(), listUser)
+            listView.adapter = adapter
+            listView.isClickable = true
+
+            if(listUser.size==3){
+                bindingBS.btnAddAddress.visibility = View.GONE
+            }
+
+            listView.setOnItemClickListener { adapterView, view, position, l ->
+                val user = listUser[position]
+                address = user.houseNo + " " + user.area + ", " + user.pincode
+
+                view.setBackgroundResource(R.drawable.on_click_saved_address)
+                bindingBS.cbMakeDefault.visibility = View.VISIBLE
+                bindingBS.btnContinueSavedAddresses.visibility = View.VISIBLE
+                when(position){
+                    0-> {
+                        listView[1].setBackgroundResource(android.R.color.transparent)
+                        listView[2].setBackgroundResource(android.R.color.transparent)
+                    }
+                    1-> {
+                        listView[0].setBackgroundResource(android.R.color.transparent)
+                        listView[2].setBackgroundResource(android.R.color.transparent)
+                    }
+                    2->{
+                        listView[0].setBackgroundResource(android.R.color.transparent)
+                        listView[1].setBackgroundResource(android.R.color.transparent)
+                    }
+                }
+            }
+            bindingBS.btnAddAddress.setOnClickListener {
+                (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
+                    .replace(R.id.flMainACtivity, CompleteProfileFragment()).commit()
+                bottomSheet.dismiss()
+            }
+            bindingBS.btnContinueSavedAddresses.setOnClickListener {
+                if(address.isNotEmpty()){
+                    deliveryAt.text = address
+                    bottomSheet.dismiss()
+                }
+            }
+            bottomSheet.show()
+
         }
         return binding.root
     }
@@ -110,45 +167,49 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
     }
 
     private fun getUserData() {
-        daoUser.get().addListenerForSingleValueEvent(object : ValueEventListener {
+        val list = ArrayList<User>()
+        daoUser.get().addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-                    val item = snapshot.getValue(User::class.java)
-                    if (item != null) {
-                        if (item.name?.isNotEmpty() == true
-                            && item.email?.isNotEmpty() == true
-                            && item.area?.isNotEmpty() == true
-                            && item.mobileNo?.isNotEmpty() == true
-                            && item.houseNo?.isNotEmpty() == true
-                            && item.pincode?.isNotEmpty() == true
-                        ) {
-                            user = item
-                            getData()
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                "Please refill your information",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            activity?.supportFragmentManager?.beginTransaction()
-                                ?.replace(R.id.flMainACtivity, CompleteProfileFragment())
+                    for (dataSnapshot in snapshot.children) {
+                        val item = dataSnapshot.getValue(User::class.java)
+                        if (item != null) {
+                            if (item.name?.isNotEmpty() == true
+                                && item.email?.isNotEmpty() == true
+                                && item.area?.isNotEmpty() == true
+                                && item.mobileNo?.isNotEmpty() == true
+                                && item.houseNo?.isNotEmpty() == true
+                                && item.pincode?.isNotEmpty() == true
+                            ) {
+                                list.add(item)
+                                Log.e("TAG", "onDataChange: $item")
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Please refill your information",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                activity?.supportFragmentManager?.beginTransaction()
+                                    ?.replace(R.id.flMainACtivity, CompleteProfileFragment())
+                            }
                         }
                     }
-
+                    listUser = list
+                    getData()
                 } else {
-//                    showStuff()
                     binding.progressBarBag.hide()
                     (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
                         .replace(R.id.flBag, CompleteProfileFragment()).commit()
                 }
+
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(requireContext(), "error $error", Toast.LENGTH_SHORT).show()
             }
-
         })
     }
+
 
     private fun startPayment(price: Int) {
 
@@ -171,8 +232,11 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
             options.put("retry", retryObj)
 
             val prefill = JSONObject()
-            prefill.put("email", user.email)
-            prefill.put("contact", user.mobileNo)
+            if (listUser.isNotEmpty()) {
+                prefill.put("email", listUser[0].email)
+                prefill.put("contact", listUser[0].mobileNo)
+            }
+
 
             options.put("prefill", prefill)
             co.open(activity, options)
@@ -212,8 +276,20 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
     }
 
     private fun showStuff() {
+        var address = ""
+        if (listUser.isNotEmpty()) {
+            for (i in 0 until listUser.size) {
+                if (listUser[i].default) {
+                    address =
+                        listUser[i].houseNo + " " + listUser[i].area + ", " + listUser[i].pincode
+                }
+            }
+            if (address == "") {
+                address = listUser[0].houseNo + " " + listUser[0].area + ", " + listUser[0].pincode
+            }
+        }
         progressBar.hide()
-        val address = user.houseNo + " " + user.area + ", " + user.pincode
+
         deliveryAt.text = address
         var time = 0
         if (listGlobal.size < 5 && listGlobal.isNotEmpty()) {
@@ -241,7 +317,8 @@ class BagFragment : Fragment(), BagRecyclerAdapter.Click {
         clForEmptyBag = binding.clForEmptyBag
         btnExplore = binding.btnBuyEmptyBag
         progressBar = binding.progressBarBag
-
+        tvChange = binding.tvChangeAddressBag
+        listUser = ArrayList()
     }
 
     private fun emptyBag() {

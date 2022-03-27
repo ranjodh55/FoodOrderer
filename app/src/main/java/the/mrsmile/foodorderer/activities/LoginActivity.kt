@@ -1,7 +1,6 @@
 package the.mrsmile.foodorderer.activities
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -12,20 +11,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.widget.addTextChangedListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.dialog.MaterialDialogs
 import com.google.android.material.progressindicator.LinearProgressIndicator
-import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import the.mrsmile.foodorderer.R
-import the.mrsmile.foodorderer.database.Dao
 import the.mrsmile.foodorderer.databinding.ActivityLoginBinding
-import the.mrsmile.foodorderer.databinding.CollectUserInfoBinding
-import the.mrsmile.foodorderer.models.User
 
 class LoginActivity : AppCompatActivity() {
 
@@ -36,13 +28,6 @@ class LoginActivity : AppCompatActivity() {
     private val log = "LoginActivity"
     private lateinit var auth: FirebaseAuth
     private lateinit var materialAlertDialogBuilder: MaterialAlertDialogBuilder
-    private lateinit var customAlertDialogView: View
-    private lateinit var nameUser: TextInputEditText
-    private lateinit var mobileUser: TextInputEditText
-    private lateinit var houseNoUser: TextInputEditText
-    private lateinit var areaUser: TextInputEditText
-    private lateinit var pincodeUser: TextInputEditText
-    private lateinit var dao: Dao
     override fun onCreate(savedInstanceState: Bundle?) {
 
         installSplashScreen()
@@ -66,6 +51,11 @@ class LoginActivity : AppCompatActivity() {
             if (email.text.isNotEmpty() && pass.text.isNotEmpty())
                 signUp(email.text.toString(), pass.text.toString())
             else Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
+        }
+        email.addTextChangedListener {
+            if (it?.contains(".com") == true) {
+                pass.requestFocus()
+            }
         }
     }
 
@@ -95,16 +85,16 @@ class LoginActivity : AppCompatActivity() {
                                 progressBar.hide()
                                 startMainActivity()
                                 finish()
-                            }else{
+                            } else {
                                 auth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
-                                    if(it.isSuccessful){
+                                    if (it.isSuccessful) {
                                         Toast.makeText(
                                             this,
                                             "Check your inbox and verify email.",
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         progressBar.hide()
-                                    }else{
+                                    } else {
                                         Toast.makeText(
                                             this,
                                             "Something's not right I can feel it. ",
@@ -156,86 +146,5 @@ class LoginActivity : AppCompatActivity() {
             startMainActivity()
             finish()
         }
-
     }
-
-//    private fun showDialog() {
-//        val dialogBinding = CollectUserInfoBinding.inflate(layoutInflater)
-//        customAlertDialogView = dialogBinding.root
-//        nameUser = dialogBinding.etNameUser
-//        mobileUser = dialogBinding.etMobileNoUser
-//        houseNoUser = dialogBinding.etHouseNoUser
-//        areaUser = dialogBinding.etArea
-//        pincodeUser = dialogBinding.etPincodeUser
-//
-//        nameUser.requestFocus()
-//
-//        materialAlertDialogBuilder.setView(customAlertDialogView)
-//            .setTitle("Complete your profile")
-//            .setMessage("Finish to setup address automatically")
-//            .setPositiveButton("Add", null)
-//            .setNegativeButton("Do it later") { dialog, _ ->
-//                val currentUser = auth.currentUser
-//                if (currentUser != null) {
-//                    dialog.dismiss()
-//                    startMainActivity()
-//                }
-//            }
-//
-//        val dialog = materialAlertDialogBuilder.create()
-//        dialog.setCancelable(false)
-//        dialog.show()
-//        val btn = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-//        btn.setOnClickListener {
-//            if (nameUser.text?.isNotEmpty() == true
-//                && mobileUser.text?.isNotEmpty() == true
-//                && houseNoUser.text?.isNotEmpty() == true
-//                && areaUser.text?.isNotEmpty() == true
-//                && pincodeUser.text?.isNotEmpty() == true
-//            ) {
-//                val name = nameUser.text.toString()
-//                val mobileNo = mobileUser.text.toString()
-//                val houseNo = houseNoUser.text.toString()
-//                val area = areaUser.text.toString()
-//                val pincode = pincodeUser.text.toString()
-//                val email = email.text.toString()
-//
-//                val currentUser = auth.currentUser
-//                if (currentUser != null) {
-//                    val uid = currentUser.uid
-//                    dao =
-//                        Dao(
-//                            Firebase.database.getReference(uid)
-//                                .child(User::class.java.simpleName)
-//                        )
-//                    val user = User(name, mobileNo, email, houseNo, area, pincode)
-//                    dao.addUserInfo(user).addOnCompleteListener {
-//                        if (it.isSuccessful) {
-//                            startMainActivity()
-//                            finish()
-//                        } else {
-//                            Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT)
-//                                .show()
-//                        }
-//                    }
-//                }
-//            } else {
-//                Log.e("TAG", "showDialog: else")
-//                if (nameUser.text.isNullOrEmpty())
-//                    nameUser.error = "Mandatory Field"
-//
-//                if (mobileUser.text.isNullOrEmpty())
-//                    mobileUser.error = "Mandatory Field"
-//
-//                if (houseNoUser.text.isNullOrEmpty())
-//                    houseNoUser.error = "Mandatory Field"
-//
-//                if (areaUser.text.isNullOrEmpty())
-//                    areaUser.error = "Mandatory Field"
-//
-//                if (pincodeUser.text.isNullOrEmpty())
-//                    pincodeUser.error = "Mandatory Field"
-//            }
-//        }
-//    }
 }

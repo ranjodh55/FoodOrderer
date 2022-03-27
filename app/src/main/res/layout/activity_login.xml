@@ -58,6 +58,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etEmailSignUp"
             android:layout_width="match_parent"
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.@1234567890"
+            android:inputType="textFilter"
             android:layout_height="match_parent" />
     </com.google.android.material.textfield.TextInputLayout>
 

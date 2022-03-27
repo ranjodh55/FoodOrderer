@@ -18,7 +18,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="50dp"
             android:fontFamily="@font/acme"
-            android:text="@string/complete_your_profile"
+            android:text="@string/add_address"
             android:textColor="@color/primaryColor"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -221,7 +221,16 @@
             android:text="@string/submit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvAddressTypeOther" />
+            app:layout_constraintTop_toBottomOf="@id/cbDefault_CPF" />
+
+        <CheckBox
+            android:id="@+id/cbDefault_CPF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Deafult addrerss"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvAddressTypeHome" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

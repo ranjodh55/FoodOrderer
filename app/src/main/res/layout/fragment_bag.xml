@@ -43,15 +43,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvDeliveryAt" />
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/tvChangeAddressBag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:text="@string/change"
+            android:layout_margin="8dp"
             android:textColor="@color/primaryColor"
+            app:layout_constraintBottom_toBottomOf="@id/tvDeliveryAt"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/tvDeliveryAt" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBag"
@@ -64,7 +66,7 @@
             app:layout_constraintBottom_toTopOf="@id/cardViewBag"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDeliveryAt" />
+            app:layout_constraintTop_toBottomOf="@id/tvChangeAddressBag" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardViewBag"

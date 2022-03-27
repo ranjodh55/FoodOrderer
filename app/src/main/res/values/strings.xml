@@ -58,4 +58,11 @@
     <string name="work">Work</string>
     <string name="other">Other</string>
     <string name="submit">Submit</string>
+    <string name="add_address">Add Address</string>
+    <string name="my_addresses">My Addresses</string>
+    <string name="manage_all_your_saved_addresses">Manage all your saved addresses</string>
+    <string name="my_orders">My Orders</string>
+    <string name="view_all_your_orders">View all your orders</string>
+    <string name="add_new_address">Add new address</string>
+    <string name="remove_address">Remove Address</string>
 </resources>

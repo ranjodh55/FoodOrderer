@@ -6,8 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ProfileFragment">
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBarProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/primaryColor"
+        app:hideAnimationBehavior="outward"
+        app:indicatorSize="30dp"
+        android:layout_gravity="center" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:id="@+id/clProfile"
         android:layout_height="match_parent">
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -30,6 +41,7 @@
             android:layout_marginBottom="40dp"
             android:text="@string/name"
             android:textColor="@color/black"
+            android:textAllCaps="true"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/ivProfileLogo"
             app:layout_constraintStart_toEndOf="@id/ivProfileLogo"
@@ -48,13 +60,100 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogoutProfile"
+            style="@style/RoundeddButton"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_marginBottom="24dp"
-            android:text="Logout"
+            android:text="@string/logout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivProfileLogo" />
+
+
+        <LinearLayout
+            android:id="@+id/llMyAddresses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider">
+
+
+            <TextView
+                android:id="@+id/tvSavedAddresses_Profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="16sp"
+                android:text="@string/my_addresses"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity=""
+                android:textSize="16sp"
+                android:layout_margin="8dp"
+                android:text="@string/manage_all_your_saved_addresses" />
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llMyAddresses" />
+
+        <LinearLayout
+            android:id="@+id/llMyOrders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider2">
+
+            <TextView
+                android:id="@+id/tvMyOrders_Profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="16sp"
+                android:text="@string/my_orders"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity=""
+                android:textSize="16sp"
+                android:layout_margin="8dp"
+                android:text="@string/view_all_your_orders" />
+
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llMyOrders" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -23,6 +23,9 @@ class Dao(private var databaseReference : DatabaseReference) {
         return databaseReference.child(key).removeValue()
     }
     fun addUserInfo(item : User) : Task<Void>{
-        return databaseReference.setValue(item)
+        return databaseReference.push().setValue(item)
+    }
+    fun removeBagItems() : Task<Void>{
+        return databaseReference.removeValue()
     }
 }
